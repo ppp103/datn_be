@@ -1,0 +1,6 @@
+@datn_HostAddress = http://localhost:5116
+
+GET {{datn_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -14,7 +14,7 @@ namespace datn.Application
 
         public DeleteQuestionCommandHandler(IQuestionRepository questionRepository)
         {
-            this._questionRepository = questionRepository;
+            _questionRepository = questionRepository;
         }
         public async Task<int> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
         {

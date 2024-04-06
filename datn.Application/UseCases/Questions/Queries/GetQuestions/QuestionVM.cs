@@ -1,4 +1,5 @@
-﻿using System;
+﻿using datn.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class QuestionVM : IMapFrom<QuestionVM>
+    public class QuestionVM : IMapFrom<Question>
     {
         public int Id { get; set; }
 
@@ -20,9 +21,9 @@ namespace datn.Application
 
         public string Option4 { get; set; }
 
-        public string CorrectOption {  get; set; }
+        public string CorrectOption { get; set; }
 
-        public string Explaination { get;set; }
+        public string Explaination { get; set; }
 
         public string ImageUrl { get; set; }
 

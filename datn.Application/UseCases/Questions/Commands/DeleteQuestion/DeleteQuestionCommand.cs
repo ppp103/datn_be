@@ -9,6 +9,6 @@ namespace datn.Application
 {
     public class DeleteQuestionCommand : IRequest<int>
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
     }
 }

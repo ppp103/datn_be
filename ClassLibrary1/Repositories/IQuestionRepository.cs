@@ -14,7 +14,7 @@ namespace datn.Domain
 
         Task<Question> GetByIdAsync(int id);
 
-        Task<Question> CreateAsync(Question question);
+        Task<Question> CreateAsync(Question question);  
 
         Task<int> UpdateAsync(int id, Question question);  
 

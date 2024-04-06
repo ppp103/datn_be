@@ -14,7 +14,7 @@ namespace datn.Application
 
         public UpdateQuestionCommandHandler(IQuestionRepository questionRepository)
         {
-            this._questionRepository = questionRepository;
+            _questionRepository = questionRepository;
         }
         public async Task<int> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
         {

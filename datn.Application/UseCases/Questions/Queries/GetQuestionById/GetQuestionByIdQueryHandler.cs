@@ -16,8 +16,8 @@ namespace datn.Application
 
         public GetQuestionByIdQueryHandler(IQuestionRepository questionRepository, IMapper mapper)
         {
-            this._questionRepository = questionRepository;
-            this._mapper = mapper;
+            _questionRepository = questionRepository;
+            _mapper = mapper;
         }
 
         public async Task<QuestionVM> Handle(GetQuestionByIdQuery request, CancellationToken cancellationToken)

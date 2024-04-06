@@ -1,24 +1,18 @@
 ﻿using AutoMapper;
 using datn.Domain;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace datn.Application
 {
-    public class QuestionCommandHandler : IRequestHandler<CreateQuestionCommand, QuestionVM>
+    public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, QuestionVM>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
 
-        public QuestionCommandHandler(IQuestionRepository questionRepository, IMapper mapper)
+        public CreateQuestionCommandHandler(IQuestionRepository questionRepository, IMapper mapper)
         {
             _questionRepository = questionRepository;
-            this._mapper = mapper;
+            _mapper = mapper;
         }
 
         public async Task<QuestionVM> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)

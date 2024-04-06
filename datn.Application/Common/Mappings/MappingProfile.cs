@@ -21,7 +21,7 @@ namespace datn.Application
 
             bool HasInterface(Type t) => t.IsGenericType && t.GetGenericTypeDefinition() == mapFromType;
 
-            var types = assembly.GetExportedTypes().Where(t => t.GetInterfaces().Any(HasInterface)).ToList();
+            var types = assembly.GetExportedTypes().Where(t => t.GetInterfaces().Any(HasInterface)).ToList();                                       
 
             var argumentTypes = new Type[] { typeof(Profile) };
 

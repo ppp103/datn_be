@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace datn.Domain
 {
-    public class Question
+    public class Question : BaseAuditEntity
     {
         public int Id { get; set; }
 
@@ -29,5 +29,9 @@ namespace datn.Domain
         public int ChuDeId { get; set; }
 
         public int LoaiCauDeId { get; set; }
+
+        //public int TestId { get; set; }
+
+        //public Test Test { get; set; }
     }
 }

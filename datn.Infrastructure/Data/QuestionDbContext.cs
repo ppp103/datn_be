@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +18,22 @@ namespace datn.Infrastructure
         }
 
         public DbSet<Question> Questions { get; set; }
+        public DbSet<Test> Tests { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new AnswerSheetConfiguration());
+            builder.ApplyConfiguration(new PracticeTestConfiguration());
+            builder.ApplyConfiguration(new QuestionCategoryConfiguration());
+            builder.ApplyConfiguration(new QuestionConfiguration());
+            builder.ApplyConfiguration(new QuestionTestConfiguration());
+            builder.ApplyConfiguration(new TestCategoryConfiguration());
+            builder.ApplyConfiguration(new TestConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+
+
+        }
     }
 }

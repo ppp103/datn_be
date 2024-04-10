@@ -33,7 +33,7 @@ namespace datn.Infrastructure
 
         public async Task<List<Question>> GetAllQuestionsAsync()
         {
-            return await _questionDbContext.Questions.ToListAsync();
+            return await _questionDbContext.Questions.OrderByDescending(q=>q.Id).ToListAsync();
         }
 
         public async Task<Question> GetByIdAsync(int id)
@@ -55,7 +55,7 @@ namespace datn.Infrastructure
                     SetProperty(m => m.Explaination, question.Explaination).
                     SetProperty(m => m.ImageUrl, question.ImageUrl).
                     SetProperty(m => m.ChuDeId, question.ChuDeId).
-                    SetProperty(m => m.LoaiCauDeId, question.LoaiCauDeId)
+                    SetProperty(m => m.LoaiCauId, question.LoaiCauId)
                 );
         }
     }

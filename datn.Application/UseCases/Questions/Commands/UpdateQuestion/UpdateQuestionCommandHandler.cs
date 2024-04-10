@@ -30,7 +30,7 @@ namespace datn.Application
                 Explaination = request.Explaination,
                 ImageUrl = request.ImageUrl,
                 ChuDeId = request.ChuDeId,
-                LoaiCauDeId = request.LoaiCauDeId,
+                LoaiCauId = request.LoaiCauId,
             };
 
             return await _questionRepository.UpdateAsync(request.Id, UpdateQuestionEntity);

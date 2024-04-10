@@ -28,7 +28,7 @@ namespace datn.Domain
 
         public int ChuDeId { get; set; }
 
-        public int LoaiCauDeId { get; set; }
+        public int LoaiCauId { get; set; }
 
         //public int TestId { get; set; }
 

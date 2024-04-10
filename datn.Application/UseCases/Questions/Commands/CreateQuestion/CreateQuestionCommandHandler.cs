@@ -28,7 +28,7 @@ namespace datn.Application
                 Explaination = request.Explaination,
                 ImageUrl = request.ImageUrl,
                 ChuDeId = request.ChuDeId,
-                LoaiCauDeId = request.LoaiCauDeId,
+                LoaiCauId = request.LoaiCauId,
             };
             var result = await _questionRepository.CreateAsync(questionEntity);
             return _mapper.Map<QuestionVM>(result);

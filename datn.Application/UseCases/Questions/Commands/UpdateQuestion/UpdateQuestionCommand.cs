@@ -29,6 +29,6 @@ namespace datn.Application
 
         public int ChuDeId { get; set; }
 
-        public int LoaiCauDeId { get; set; }
+        public int LoaiCauId { get; set; }
     }
 }

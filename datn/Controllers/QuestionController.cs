@@ -63,8 +63,8 @@ namespace datn.API
             return StatusCode(200, updatedQuestion);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync([FromQuery] int id)
         {
             var result = await Mediator.Send(new DeleteQuestionCommand { Id = id });
             if(result == 0)

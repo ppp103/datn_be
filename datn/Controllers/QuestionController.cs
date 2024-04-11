@@ -16,6 +16,14 @@ namespace datn.API
             return Ok(questions);
         }
 
+        [HttpGet("Pagging")]
+        public async Task<IActionResult> GetAllPaggingAsync([FromQuery] GetQuestionQuery request)
+        {
+            var questions = await Mediator.Send(request);
+            return Ok(questions);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {

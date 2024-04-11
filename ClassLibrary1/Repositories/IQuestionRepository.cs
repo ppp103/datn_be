@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace datn.Domain
 
-namespace datn.Domain
 {
     public interface IQuestionRepository
     {
         Task<List<Question>> GetAllQuestionsAsync();
+
+        Task<PagedList<Question>> GetAllQuestionPaggingAsync(int page, int pageSize, string keyWord);
 
         //Task<List<Question>> GetByIdAsync(int id); 
 

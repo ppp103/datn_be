@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class GetQuestionQuery : PagingRequest, IRequest<PagedList<QuestionVM>>
+    public class GetQuestionQuery : PagingRequest, IRequest<PagedList<Question>>
     {
         public int? ChuDeId { get; set; }
         public int? LoaiCauId { get; set; }

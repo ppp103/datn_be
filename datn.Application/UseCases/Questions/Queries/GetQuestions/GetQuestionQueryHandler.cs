@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class GetQuestionQueryHandler : IRequestHandler<GetQuestionQuery, PagedList<Question>>
+    public class GetQuestionQueryHandler : IRequestHandler<GetQuestionQuery, PagedList<QuestionDto>>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace datn.Application
             _mapper = mapper;
         }
 
-        public async Task<PagedList<Question>> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<QuestionDto>> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
         {
             //if (request.PageSize == 0)
             //{
@@ -65,9 +65,18 @@ namespace datn.Application
             {
                 request.PageSize = AppConstants.MaxPageSize;
             }
-
-            var questionList = await _questionRepository.GetAllQuestionPaggingAsync(request.PageNumber, request.PageSize, request.Keyword);
-
+            if(request.PageNumber == 0 || request.PageNumber == null)
+            {
+                request.PageNumber = 1;
+            }
+            var questionList = await _questionRepository.GetAllQuestionPaggingAsync(
+                request.PageNumber, 
+                request.PageSize, 
+                request.Keyword, 
+                request.ChuDeId, 
+                request.LoaiCauId);
+            //var questionList = await _questionRepository.GetAllQuestionPaggingAsync(request);
+            //var res = _mapper.Map<Question>(questionList);
             return questionList;
         }
     }

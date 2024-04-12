@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
+    <Folder Include="UseCases\QuestionCategories\Commands\" />
+    <Folder Include="UseCases\Topics\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

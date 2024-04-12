@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace datn.API
 {
@@ -51,15 +52,14 @@ namespace datn.API
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(int id, UpdateQuestionCommand command)
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(UpdateQuestionCommand command)
         {
-
-            if (id != command.Id)
-            {
-                return BadRequest();
-            }
+            //if (!ModelState.IsValid)
+            //    return BadRequest(new { Errors = ModelState });
+            
             var updatedQuestion = await Mediator.Send(command);
+
             return StatusCode(200, updatedQuestion);
         }
 

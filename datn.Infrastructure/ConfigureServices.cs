@@ -21,6 +21,8 @@ namespace datn.Infrastructure
                     throw new InvalidOperationException("connection string 'QuestionDbContext not found'"));
             });
             services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IQuestionCategoryRepository, QuestionCategoryRepository>();
+
             return services;
         }
     }

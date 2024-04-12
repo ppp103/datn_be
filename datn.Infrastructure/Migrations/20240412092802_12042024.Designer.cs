@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using datn.Infrastructure;
 
 #nullable disable
 
-namespace datn.Infrastructure
+namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    partial class QuestionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240412092802_12042024")]
+    partial class _12042024
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -100,6 +103,10 @@ namespace datn.Infrastructure
                         .HasColumnType("INTEGER")
                         .HasColumnName("Id");
 
+                    b.Property<string>("ChuDe")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("ChuDeId")
                         .HasColumnType("INTEGER");
 
@@ -124,6 +131,10 @@ namespace datn.Infrastructure
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT")
                         .HasColumnName("ImageUrl");
+
+                    b.Property<string>("LoaiCau")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("LoaiCauId")
                         .HasColumnType("INTEGER");

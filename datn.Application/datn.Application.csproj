@@ -9,6 +9,9 @@
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
     <Folder Include="UseCases\QuestionCategories\Commands\" />
+    <Folder Include="UseCases\Tests\Commands\CreateTest\" />
+    <Folder Include="UseCases\Tests\Commands\DeleteTest\" />
+    <Folder Include="UseCases\Tests\Commands\UpdateTest\" />
     <Folder Include="UseCases\Topics\Commands\" />
   </ItemGroup>
 

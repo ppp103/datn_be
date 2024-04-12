@@ -8,7 +8,7 @@
 
         //Task<List<Question>> GetByIdAsync(int id); 
 
-        Task<Question> GetByIdAsync(int id);
+        Task<QuestionDto> GetByIdAsync(int id);
 
         Task<Question> CreateAsync(Question question);  
 

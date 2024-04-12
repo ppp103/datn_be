@@ -115,9 +115,31 @@ namespace datn.Infrastructure
             return await _questionDbContext.Questions.OrderByDescending(q=>q.Id).ToListAsync();
         }
 
-        public async Task<Question> GetByIdAsync(int id)
+        public async Task<QuestionDto> GetByIdAsync(int id)
         {
-            return await _questionDbContext.Questions.FirstOrDefaultAsync(b => b.Id == id);
+            var query = from question in _questionDbContext.Questions
+                        join topic in _questionDbContext.Topics
+                        on question.ChuDeId equals topic.Id
+                        join category in _questionDbContext.QuestionCategories
+                        on question.LoaiCauId equals category.Id
+                        where question.Id == id
+                        select new QuestionDto
+                        {
+                            Id = question.Id,
+                            Content = question.Content,
+                            ChuDe = topic.Name,
+                            LoaiCau = category.QuestionCategoryName,
+                            Option1 = question.Option1,
+                            Option2 = question.Option2,
+                            Option3 = question.Option3,
+                            Option4 = question.Option4,
+                            CorrectOption = question.CorrectOption,
+                            Explaination = question.Explaination,
+                            ChuDeId = question.ChuDeId,
+                            LoaiCauId = question.LoaiCauId
+                        };
+
+            return await query.FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<int> UpdateAsync(int id, Question question)

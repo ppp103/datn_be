@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace datn.Application.UseCases.Tests.Commands.CreateTest
+namespace datn.Application
 {
-    internal class CreateTestCommand
+    public class CreateTestCommand
     {
     }
 }

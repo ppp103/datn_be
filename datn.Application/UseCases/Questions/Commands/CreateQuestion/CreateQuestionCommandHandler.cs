@@ -4,7 +4,7 @@ using MediatR;
 
 namespace datn.Application
 {
-    public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, QuestionVM>
+    public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, Question>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
@@ -15,8 +15,25 @@ namespace datn.Application
             _mapper = mapper;
         }
 
-        public async Task<QuestionVM> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<Question> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
         {
+            var point = 0;
+            var time = 0;
+            switch (request.DifficultyLevel)
+            {
+                case 1: 
+                    point = 5;
+                    time = 2;
+                    break;
+                case 2:
+                    point = 10;
+                    time = 3;
+                    break;
+                case 3:
+                    point = 15;
+                    time = 4;
+                    break;
+            }
             var questionEntity = new Question()
             {
                 Content = request.Content,
@@ -29,9 +46,13 @@ namespace datn.Application
                 ImageUrl = request.ImageUrl,
                 ChuDeId = request.ChuDeId,
                 LoaiCauId = request.LoaiCauId,
+                DifficultyLevel = request.DifficultyLevel,
+                Point = point,
+                Time = time,
             };
+
             var result = await _questionRepository.CreateAsync(questionEntity);
-            return _mapper.Map<QuestionVM>(result);
+            return result;
         }
     }
 }

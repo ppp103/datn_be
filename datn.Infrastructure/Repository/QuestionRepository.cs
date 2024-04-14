@@ -87,7 +87,10 @@ namespace datn.Infrastructure
                             CorrectOption = question.CorrectOption,
                             Explaination = question.Explaination,
                             ChuDeId = question.ChuDeId,
-                            LoaiCauId = question.LoaiCauId
+                            LoaiCauId = question.LoaiCauId,
+                            Point = question.Point,
+                            Time = question.Time,
+                            DifficultyLevel = question.DifficultyLevel,
                         };
 
             if (!string.IsNullOrWhiteSpace(keyWord))
@@ -136,7 +139,11 @@ namespace datn.Infrastructure
                             CorrectOption = question.CorrectOption,
                             Explaination = question.Explaination,
                             ChuDeId = question.ChuDeId,
-                            LoaiCauId = question.LoaiCauId
+                            LoaiCauId = question.LoaiCauId,
+                            Point = question.Point,
+                            Time = question.Time,
+                            DifficultyLevel = question.DifficultyLevel,
+
                         };
 
             return await query.FirstOrDefaultAsync(b => b.Id == id);

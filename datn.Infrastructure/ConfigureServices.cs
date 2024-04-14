@@ -23,6 +23,7 @@ namespace datn.Infrastructure
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IQuestionCategoryRepository, QuestionCategoryRepository>();
             services.AddTransient<ITestRepository, TestRepository>();
+            services.AddTransient<ITopicRepository, TopicRepository>();
 
             return services;
         }

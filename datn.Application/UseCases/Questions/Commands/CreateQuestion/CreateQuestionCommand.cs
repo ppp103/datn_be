@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using datn.Domain;
+using MediatR;
 
 namespace datn.Application
 {
-    public class CreateQuestionCommand : IRequest<QuestionVM>
+    public class CreateQuestionCommand : IRequest<Question>
     {
         public string Content { get; set; }
 
@@ -24,5 +25,11 @@ namespace datn.Application
 
         public int LoaiCauId { get; set; }
 
+        //public int? Point { get; set; }
+
+        public int DifficultyLevel { get; set; }
+
+        //// Thời gian ước tính làm mỗi câu hỏi - tính theo phút
+        //public int? Time { get; set; }
     }
 }

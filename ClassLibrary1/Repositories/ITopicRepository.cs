@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace datn.Application
+namespace datn.Domain
 {
-    public class GetTopicQuery
+    public interface ITopicRepository
     {
+        Task<List<TopicTreeDto>> GetTopicTreeAsync();
     }
 }

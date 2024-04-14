@@ -30,5 +30,12 @@ namespace datn.Application
         public int ChuDeId { get; set; }
 
         public int LoaiCauId { get; set; }
+
+        public int Point { get; set; }
+
+        public int DifficultyLevel { get; set; }
+
+        // Thời gian ước tính làm mỗi câu hỏi - tính theo phút
+        public int Time { get; set; }
     }
 }

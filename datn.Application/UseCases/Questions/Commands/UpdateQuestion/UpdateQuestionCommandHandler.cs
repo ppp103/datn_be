@@ -31,6 +31,9 @@ namespace datn.Application
                 ImageUrl = request.ImageUrl,
                 ChuDeId = request.ChuDeId,
                 LoaiCauId = request.LoaiCauId,
+                Point = request.Point,
+                DifficultyLevel = request.DifficultyLevel,
+                Time = request.Time,
             };
 
             return await _questionRepository.UpdateAsync(request.Id, UpdateQuestionEntity);

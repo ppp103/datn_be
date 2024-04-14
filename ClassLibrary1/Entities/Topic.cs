@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace datn.Domain
 {
-    public class Topic
+    public class Topic : BaseAuditEntity
     {
         public int Id { get; set; }
 

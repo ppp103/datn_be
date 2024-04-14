@@ -6,7 +6,7 @@ namespace datn.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Test : ApiControllerBase
+    public class TestController : ApiControllerBase
     {
         [HttpGet("Pagging")]
         public async Task<IActionResult> GetAllPaggingAsync([FromQuery] GetTestQuery request)

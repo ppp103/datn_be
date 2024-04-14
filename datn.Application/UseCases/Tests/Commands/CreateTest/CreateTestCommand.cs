@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace datn.Application
+namespace datn.Application.UseCases.Tests.Commands.CreateTest
 {
-    public class GetTopicQueryHandler
+    internal class CreateTestCommand
     {
     }
 }

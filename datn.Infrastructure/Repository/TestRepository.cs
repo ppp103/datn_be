@@ -1,4 +1,5 @@
-﻿using datn.Domain;
+﻿using datn.Application;
+using datn.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,16 @@ namespace datn.Infrastructure
             _questionDbContext = questionDbContext;
         }
 
+        public async Task<Test> CreateAsync(Test test)
+        {
+            // Tạo 1 test mới
+            await _questionDbContext.Tests.AddAsync(test);
+
+            // Thêm câu hỏi vào bảng TestQuestion
+            await _questionDbContext.SaveChangesAsync();
+            return test;
+        }
+
         public async Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize)
         {
             var query = from test in _questionDbContext.Tests
@@ -29,5 +40,7 @@ namespace datn.Infrastructure
                         };
             return await PagedList<TestDto>.CreateAsync(query, page, pageSize);
         }
+
+
     }
 }

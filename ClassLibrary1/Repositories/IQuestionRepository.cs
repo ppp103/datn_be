@@ -4,7 +4,7 @@
     {
         Task<List<Question>> GetAllQuestionsAsync();
 
-        Task<PagedList<QuestionDto>> GetAllQuestionPaggingAsync(int page, int pageSize, string keyWord, int? chuDeId, int? loaiCauId);
+        Task<PagedList<QuestionDto>> GetAllQuestionPaggingAsync(int page, int pageSize, string keyWord, int? chuDeId, int? loaiCauId, int? difficultyLevel);
 
         //Task<List<Question>> GetByIdAsync(int id); 
 

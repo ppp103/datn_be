@@ -74,7 +74,8 @@ namespace datn.Application
                 request.PageSize, 
                 request.Keyword, 
                 request.ChuDeId, 
-                request.LoaiCauId);
+                request.LoaiCauId,
+                request.DifficultyLevel);
             //var questionList = await _questionRepository.GetAllQuestionPaggingAsync(request);
             //var res = _mapper.Map<Question>(questionList);
             return questionList;

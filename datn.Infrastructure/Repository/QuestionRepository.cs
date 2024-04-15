@@ -67,7 +67,7 @@ namespace datn.Infrastructure
         //    return res;
         //}
 
-        public async Task<PagedList<QuestionDto>> GetAllQuestionPaggingAsync(int page, int pageSize, string keyWord, int? chuDeId, int? loaiCauId)
+        public async Task<PagedList<QuestionDto>> GetAllQuestionPaggingAsync(int page, int pageSize, string keyWord, int? chuDeId, int? loaiCauId, int? difficultyLevel)
         {
             var query = from question in _questionDbContext.Questions
                         join topic in _questionDbContext.Topics
@@ -107,6 +107,13 @@ namespace datn.Infrastructure
             {
                 query = query.Where(q => q.LoaiCauId == loaiCauId);
             }
+
+            if (difficultyLevel != null && difficultyLevel != 0)
+            {
+                query = query.Where(q => q.DifficultyLevel == difficultyLevel);
+            }
+
+
 
             var res = await PagedList<QuestionDto>.CreateAsync(query.OrderByDescending(q => q.Id), page, pageSize);
             return res;

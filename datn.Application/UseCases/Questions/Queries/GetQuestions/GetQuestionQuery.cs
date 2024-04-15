@@ -12,5 +12,6 @@ namespace datn.Application
     {
         public int? ChuDeId { get; set; }
         public int? LoaiCauId { get; set; }
+        public int? DifficultyLevel { get; set; }
     }
 }

@@ -11,8 +11,8 @@ using datn.Infrastructure;
 namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    [Migration("20240413154358_130420247")]
-    partial class _130420247
+    [Migration("20240416014427_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,6 +183,24 @@ namespace datn.Infrastructure.Migrations
                     b.ToTable("QuestionCategories");
                 });
 
+            modelBuilder.Entity("datn.Domain.QuestionTest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuestionTests");
+                });
+
             modelBuilder.Entity("datn.Domain.Test", b =>
                 {
                     b.Property<int>("Id")
@@ -250,6 +268,18 @@ namespace datn.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()

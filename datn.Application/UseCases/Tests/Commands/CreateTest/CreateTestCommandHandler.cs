@@ -9,20 +9,28 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, Test>
+    public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, TestDto>
     {
-        private readonly IQuestionRepository _questionRepository;
+        private readonly ITestRepository _testRepository;
         private readonly IMapper _mapper;
 
-        public CreateTestCommandHandler(IQuestionRepository questionRepository, IMapper mapper)
+        public CreateTestCommandHandler(ITestRepository testRepository, IMapper mapper)
         {
-            _questionRepository = questionRepository;
+            _testRepository = testRepository;
             _mapper = mapper;
         }
 
-        public Task<Test> Handle(CreateTestCommand request, CancellationToken cancellationToken)
+        public async Task<TestDto> Handle(CreateTestCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var testEntity = new TestDto()
+            {
+                TestName = request.TestName,
+                Time = request.Time,
+                TotalPoint = request.TotalPoint,
+                NumberOfQuestions = request.NumberOfQuestion,
+                Ids = request.Ids
+            };
+            return await _testRepository.CreateAsync(testEntity);
         }
     }
 }

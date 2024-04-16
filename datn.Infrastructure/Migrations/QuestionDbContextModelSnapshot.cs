@@ -7,7 +7,7 @@ using datn.Infrastructure;
 
 #nullable disable
 
-namespace datn.Infrastructure
+namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
     partial class QuestionDbContextModelSnapshot : ModelSnapshot
@@ -180,6 +180,24 @@ namespace datn.Infrastructure
                     b.ToTable("QuestionCategories");
                 });
 
+            modelBuilder.Entity("datn.Domain.QuestionTest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuestionTests");
+                });
+
             modelBuilder.Entity("datn.Domain.Test", b =>
                 {
                     b.Property<int>("Id")
@@ -207,6 +225,9 @@ namespace datn.Infrastructure
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Time")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TotalPoint")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

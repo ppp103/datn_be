@@ -11,8 +11,8 @@ using datn.Infrastructure;
 namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    [Migration("20240412092802_12042024")]
-    partial class _12042024
+    [Migration("20240416014539_second")]
+    partial class second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCorrect")
@@ -43,7 +43,7 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PracticeTestId")
@@ -67,13 +67,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Result")
@@ -103,10 +103,6 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("Id");
 
-                    b.Property<string>("ChuDe")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("ChuDeId")
                         .HasColumnType("INTEGER");
 
@@ -121,8 +117,11 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("DifficultyLevel")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Explaination")
                         .HasColumnType("TEXT")
@@ -132,17 +131,13 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("ImageUrl");
 
-                    b.Property<string>("LoaiCau")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("LoaiCauId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Option1")
@@ -160,6 +155,12 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("Option4")
                         .HasColumnType("TEXT")
                         .HasColumnName("Option4");
+
+                    b.Property<int>("Point")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Time")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -182,6 +183,24 @@ namespace datn.Infrastructure.Migrations
                     b.ToTable("QuestionCategories");
                 });
 
+            modelBuilder.Entity("datn.Domain.QuestionTest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuestionTests");
+                });
+
             modelBuilder.Entity("datn.Domain.Test", b =>
                 {
                     b.Property<int>("Id")
@@ -192,13 +211,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NumberOfQuestions")
@@ -226,13 +245,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TestCategoryName")
@@ -249,6 +268,18 @@ namespace datn.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -272,7 +303,7 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -282,7 +313,7 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")

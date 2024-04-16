@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class CreateTestCommand : IRequest<Test>
+    public class CreateTestCommand : IRequest<TestDto>
     {
-        public string? TestName { get; set; }
+        public string TestName { get; set; }
 
-        public int? Time { get; set; }
+        public int Time { get; set; }
 
-        public List<int> Id { get; set; }
+        public int TotalPoint {  get; set; }    
+
+        public int NumberOfQuestion { get; set; }
+
+        public List<int> Ids { get; set; }
     }
 }

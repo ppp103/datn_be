@@ -9,7 +9,7 @@ namespace datn.Domain
     public interface ITestRepository
     {
         Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize);
-        Task<Test> CreateAsync(Test test);
+        Task<TestDto> CreateAsync(TestDto test);
 
     }
 }

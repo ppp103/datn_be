@@ -15,5 +15,19 @@ namespace datn.API.Controllers
             return Ok(tests);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(CreateTestCommand command)
+        {
+            var createdTest = await Mediator.Send(command);
+
+            if (createdTest != null)
+            {
+                return StatusCode(201, createdTest);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

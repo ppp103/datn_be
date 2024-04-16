@@ -5,7 +5,7 @@
 namespace datn.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class _130420247 : Migration
+    public partial class second : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

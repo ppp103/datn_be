@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace datn.Infrastructure
 {
-    public class QuestionTestConfiguration : IEntityTypeConfiguration<Question>
+    public class QuestionTestConfiguration : IEntityTypeConfiguration<QuestionTest>
     {
-        public void Configure(EntityTypeBuilder<Question> builder)
+        public void Configure(EntityTypeBuilder<QuestionTest> builder)
         {
             builder.HasKey(t => t.Id);
             builder.Property(x => x.Id).HasColumnName("Id").IsRequired();

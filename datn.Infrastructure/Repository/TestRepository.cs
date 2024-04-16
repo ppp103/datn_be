@@ -18,14 +18,42 @@ namespace datn.Infrastructure
             _questionDbContext = questionDbContext;
         }
 
-        public async Task<Test> CreateAsync(Test test)
+        public async Task<TestDto> CreateAsync(TestDto test)
         {
-            // Tạo 1 test mới
-            await _questionDbContext.Tests.AddAsync(test);
+            using var transaction = _questionDbContext.Database.BeginTransaction();
+            try
+            {
+                // Tạo 1 test mới
+                var newTest = new Test()
+                {
+                    TestName = test.TestName,
+                    Time = test.Time,
+                    TotalPoint = test.TotalPoint,
+                    NumberOfQuestions = test.NumberOfQuestions,
+                };
+                var res = await _questionDbContext.Tests.AddAsync(newTest);
+                await _questionDbContext.SaveChangesAsync();
 
-            // Thêm câu hỏi vào bảng TestQuestion
-            await _questionDbContext.SaveChangesAsync();
-            return test;
+                // Thêm câu hỏi vào bảng TestQuestion
+                foreach (var id in test.Ids)
+                {
+                    var questionTestEntity = new QuestionTest()
+                    {
+                        QuestionId = id,
+                        TestId = res.Entity.Id
+                    };
+                    await _questionDbContext.QuestionTests.AddAsync(questionTestEntity);
+                }
+
+                await _questionDbContext.SaveChangesAsync();
+                transaction.Commit();
+                return test;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize)
@@ -36,9 +64,10 @@ namespace datn.Infrastructure
                             Id = test.Id,
                             TestName = test.TestName,
                             Time = test.Time,
+                            TotalPoint = test.TotalPoint,
                             NumberOfQuestions = test.NumberOfQuestions,
                         };
-            return await PagedList<TestDto>.CreateAsync(query, page, pageSize);
+            return await PagedList<TestDto>.CreateAsync(query.OrderByDescending(q => q.Id), page, pageSize);
         }
 
 

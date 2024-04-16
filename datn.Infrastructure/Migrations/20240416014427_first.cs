@@ -6,37 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace datn.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class _08042024 : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "CreatedBy",
-                table: "Questions",
-                type: "TEXT",
-                nullable: true);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "CreatedDate",
-                table: "Questions",
-                type: "TEXT",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<string>(
-                name: "ModifiedBy",
-                table: "Questions",
-                type: "TEXT",
-                nullable: true);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "ModifiedDate",
-                table: "Questions",
-                type: "TEXT",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
             migrationBuilder.CreateTable(
                 name: "AnswerSheet",
                 columns: table => new
@@ -48,9 +22,9 @@ namespace datn.Infrastructure.Migrations
                     ChosenOption = table.Column<string>(type: "TEXT", nullable: false),
                     IsCorrect = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,9 +43,9 @@ namespace datn.Infrastructure.Migrations
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     TestId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,7 +53,7 @@ namespace datn.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuestionCategory",
+                name: "QuestionCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -88,7 +62,50 @@ namespace datn.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuestionCategory", x => x.Id);
+                    table.PrimaryKey("PK_QuestionCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionTests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TestId = table.Column<int>(type: "INTEGER", nullable: false),
+                    QuestionId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionTests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    Option1 = table.Column<string>(type: "TEXT", nullable: true),
+                    Option2 = table.Column<string>(type: "TEXT", nullable: true),
+                    Option3 = table.Column<string>(type: "TEXT", nullable: true),
+                    Option4 = table.Column<string>(type: "TEXT", nullable: true),
+                    CorrectOption = table.Column<string>(type: "TEXT", nullable: true),
+                    Explaination = table.Column<string>(type: "TEXT", nullable: true),
+                    ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    ChuDeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    LoaiCauId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Point = table.Column<int>(type: "INTEGER", nullable: false),
+                    DifficultyLevel = table.Column<int>(type: "INTEGER", nullable: false),
+                    Time = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,9 +116,9 @@ namespace datn.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TestCategoryName = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -118,13 +135,31 @@ namespace datn.Infrastructure.Migrations
                     Time = table.Column<int>(type: "INTEGER", nullable: false),
                     NumberOfQuestions = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Topics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    ParentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Topics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -138,9 +173,9 @@ namespace datn.Infrastructure.Migrations
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Role = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -158,7 +193,13 @@ namespace datn.Infrastructure.Migrations
                 name: "PracticeTest");
 
             migrationBuilder.DropTable(
-                name: "QuestionCategory");
+                name: "QuestionCategories");
+
+            migrationBuilder.DropTable(
+                name: "QuestionTests");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "TestCategory");
@@ -167,23 +208,10 @@ namespace datn.Infrastructure.Migrations
                 name: "Tests");
 
             migrationBuilder.DropTable(
+                name: "Topics");
+
+            migrationBuilder.DropTable(
                 name: "User");
-
-            migrationBuilder.DropColumn(
-                name: "CreatedBy",
-                table: "Questions");
-
-            migrationBuilder.DropColumn(
-                name: "CreatedDate",
-                table: "Questions");
-
-            migrationBuilder.DropColumn(
-                name: "ModifiedBy",
-                table: "Questions");
-
-            migrationBuilder.DropColumn(
-                name: "ModifiedDate",
-                table: "Questions");
         }
     }
 }

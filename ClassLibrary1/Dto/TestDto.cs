@@ -16,5 +16,8 @@ namespace datn.Domain
 
         public int NumberOfQuestions { get; set; }
 
+        public int TotalPoint {  get; set; }
+
+        public List<int> Ids { get; set; }
     }
 }

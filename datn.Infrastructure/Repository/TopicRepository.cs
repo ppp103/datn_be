@@ -21,6 +21,21 @@ namespace datn.Infrastructure
             _questionDbContext = questionDbContext;
 
         }
+
+        public async Task<List<TopicDto>> GetTopicFlatAsync()
+        {
+            var query = from topic in _questionDbContext.Topics
+                        select new TopicDto()
+                        {
+                            Id = topic.Id,
+                            Name = topic.Name,
+                        };
+                
+            //var res = query.OrderByDescending(t => t.Id).ToList();
+
+            return query.OrderByDescending(q => q.Id).ToList();
+        }
+
         public Task<List<TopicTreeDto>> GetTopicTreeAsync()
         {
             var queue = new Queue<TopicTreeDto>();
@@ -88,5 +103,6 @@ namespace datn.Infrastructure
             return Task.FromResult(result);
 
         }
+
     }
 }

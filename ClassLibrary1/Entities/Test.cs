@@ -18,6 +18,12 @@ namespace datn.Domain
 
         public int NumberOfQuestions { get; set; }
 
+        public string? CreatedBy { get; set; }
+
+        public string? CreatedDate { get; set; }
+
+        public string? ImgLink { get; set; }
+
         //public List<int> Ids { get; set; }
 
         //public ICollection<Question> Questions { get; set; }

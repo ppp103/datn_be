@@ -28,6 +28,8 @@ namespace datn.Application
                 Time = request.Time,
                 TotalPoint = request.TotalPoint,
                 NumberOfQuestions = request.NumberOfQuestion,
+                ImgLink = request.ImgLink,
+                CreatedDate = DateTime.Now.ToString(),
                 Ids = request.Ids
             };
             return await _testRepository.CreateAsync(testEntity);

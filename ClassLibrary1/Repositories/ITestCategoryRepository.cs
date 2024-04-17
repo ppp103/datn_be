@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace datn.Domain
 {
-    public interface ITopicRepository
+    public interface ITestCategoryRepository
     {
-        Task<List<TopicTreeDto>> GetTopicTreeAsync();
-        Task<List<TopicDto>> GetTopicFlatAsync();
+        Task<List<TestCategory>> GetAllTestCategoryAsync();
+
     }
 }

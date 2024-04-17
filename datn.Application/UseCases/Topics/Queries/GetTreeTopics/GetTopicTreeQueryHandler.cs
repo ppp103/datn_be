@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class GetTopicTreeQueryHandler : IRequestHandler<GetTopicTreeQuery, List<TopicTreeDto>>
+    public class GetTopicTreeQueryHandler : IRequestHandler<GetTopicTreeQuery, List<TopicTreeDto>>,
+                                            IRequestHandler<GetTopicFlatQuery, List<TopicDto>>
     {
         private readonly ITopicRepository _topicRepository;
         private readonly IMapper _mapper;
@@ -22,6 +23,11 @@ namespace datn.Application
         public async Task<List<TopicTreeDto>> Handle(GetTopicTreeQuery request, CancellationToken cancellationToken)
         {
             return await _topicRepository.GetTopicTreeAsync();
+        }
+
+        public async Task<List<TopicDto>> Handle(GetTopicFlatQuery request, CancellationToken cancellationToken)
+        {
+            return await _topicRepository.GetTopicFlatAsync();
         }
     }
 }

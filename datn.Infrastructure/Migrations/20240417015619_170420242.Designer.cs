@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using datn.Infrastructure;
 
@@ -10,9 +11,11 @@ using datn.Infrastructure;
 namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    partial class QuestionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240417015619_170420242")]
+    partial class _170420242
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -115,6 +118,7 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedDate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DifficultyLevel")
@@ -206,9 +210,11 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedDate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImgLink")

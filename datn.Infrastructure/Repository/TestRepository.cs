@@ -29,6 +29,9 @@ namespace datn.Infrastructure
                     TestName = test.TestName,
                     Time = test.Time,
                     TotalPoint = test.TotalPoint,
+                    CreatedBy = test.CreatedBy,
+                    CreatedDate = test.CreatedDate,
+                    ImgLink = test.ImgLink,
                     NumberOfQuestions = test.NumberOfQuestions,
                 };
                 var res = await _questionDbContext.Tests.AddAsync(newTest);
@@ -56,7 +59,7 @@ namespace datn.Infrastructure
             }
         }
 
-        public async Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize)
+        public async Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize, string keyWord)
         {
             var query = from test in _questionDbContext.Tests
                         select new TestDto
@@ -65,11 +68,34 @@ namespace datn.Infrastructure
                             TestName = test.TestName,
                             Time = test.Time,
                             TotalPoint = test.TotalPoint,
+                            CreatedBy = test.CreatedBy,
+                            CreatedDate = test.CreatedDate,
+                            ImgLink = test.ImgLink,
                             NumberOfQuestions = test.NumberOfQuestions,
                         };
+
+            if (!string.IsNullOrWhiteSpace(keyWord))
+            {
+                query = query.Where(q => EF.Functions.Like(q.TestName, $"%{keyWord}%"));
+            }
+
             return await PagedList<TestDto>.CreateAsync(query.OrderByDescending(q => q.Id), page, pageSize);
         }
 
-
+        public async Task<TestDto> GetByIdAsync(int id)
+        {
+            var query = from test in _questionDbContext.Tests
+                        select new TestDto { 
+                            Id = test.Id, 
+                            TestName = test.TestName,
+                            Time = test.Time,
+                            TotalPoint = test.TotalPoint,
+                            CreatedBy = test.CreatedBy,
+                            CreatedDate = test.CreatedDate,
+                            ImgLink = test.ImgLink, 
+                            NumberOfQuestions = test.NumberOfQuestions,
+                        };
+            return await query.FirstOrDefaultAsync(t => t.Id == id);
+        }
     }
 }

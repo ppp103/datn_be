@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace datn.Domain
 {
-    public interface ITopicRepository
+    public class TopicDto
     {
-        Task<List<TopicTreeDto>> GetTopicTreeAsync();
-        Task<List<TopicDto>> GetTopicFlatAsync();
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

@@ -8,7 +8,8 @@ namespace datn.Domain
 {
     public interface ITestRepository
     {
-        Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize);
+        Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize, string keyWord);
+        Task<TestDto> GetByIdAsync(int id);
         Task<TestDto> CreateAsync(TestDto test);
 
     }

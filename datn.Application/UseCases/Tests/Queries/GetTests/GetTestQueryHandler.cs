@@ -31,7 +31,8 @@ namespace datn.Application
             }
             var testList = await _testRepository.GetAllTestPaggingAsync(
                 request.PageNumber,
-                request.PageSize);
+                request.PageSize,
+                request.Keyword);
             //var questionList = await _questionRepository.GetAllQuestionPaggingAsync(request);
             //var res = _mapper.Map<Question>(questionList);
             return testList;

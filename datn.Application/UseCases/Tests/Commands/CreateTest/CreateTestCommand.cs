@@ -14,9 +14,13 @@ namespace datn.Application
 
         public int Time { get; set; }
 
-        public int TotalPoint {  get; set; }    
+        public int TotalPoint {  get; set; }
 
         public int NumberOfQuestion { get; set; }
+
+        public string? CreatedBy { get; set; }
+
+        public string? ImgLink {  get; set; }
 
         public List<int> Ids { get; set; }
     }

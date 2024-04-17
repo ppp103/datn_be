@@ -16,7 +16,7 @@ namespace datn.Domain
         /// <summary>
         /// Ngày tạo
         /// </summary>
-        public DateTime? CreatedDate { get; set; }
+        public string? CreatedDate { get; set; }
 
         /// <summary>
         /// Người sửa
@@ -26,6 +26,6 @@ namespace datn.Domain
         /// <summary>
         /// Ngày tạo
         /// </summary>
-        public DateTime? ModifiedDate { get; set; }
+        public string? ModifiedDate { get; set; }
     }
 }

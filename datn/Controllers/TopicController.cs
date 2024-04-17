@@ -14,5 +14,14 @@ namespace datn.API.Controllers
             var topics = await Mediator.Send(new GetTopicTreeQuery());
             return Ok(topics);
         }
+
+        [HttpGet]
+        [Route("get-flat-topic")]
+        public async Task<IActionResult> GetFlatAllAsync()
+        {
+            var topics = await Mediator.Send(new GetTopicFlatQuery());
+            return Ok(topics);
+        }
+
     }
 }

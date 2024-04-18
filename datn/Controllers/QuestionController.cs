@@ -37,6 +37,18 @@ namespace datn.API
             else { return BadRequest(); }
         }
 
+        [HttpGet("get-questions-by-test-id/{id}")]
+        public async Task<IActionResult> GetQuestionByTestIdAsync(int id)
+        {
+            var question = await Mediator.Send(new GetQuestionByTestIdQuery() { TestId = id });
+            if (question != null)
+            {
+                return Ok(question);
+
+            }
+            else { return BadRequest(); }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateQuestionCommand command)
         {

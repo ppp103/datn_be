@@ -156,6 +156,31 @@ namespace datn.Infrastructure
             return await query.FirstOrDefaultAsync(b => b.Id == id);
         }
 
+        public async Task<List<QuestionDto>> GetQuestionByTestIdAsync(int testId)
+        {
+            // lấy ra id những câu hỏi thuộc đề thi
+            var query = from q in _questionDbContext.Questions
+                        join questionTest in _questionDbContext.QuestionTests
+                        on q.Id equals questionTest.Id
+                        select new QuestionDto
+                        {
+                            Id = q.Id,
+                            Content = q.Content,
+                            Option1 = q.Option1,
+                            Option2 = q.Option2,
+                            Option3 = q.Option3,
+                            Option4 = q.Option4,
+                            CorrectOption = q.CorrectOption,
+                            Explaination = q.Explaination,
+                            LoaiCauId = q.LoaiCauId,
+                            Point = q.Point,
+                            DifficultyLevel = q.DifficultyLevel,
+                        };
+
+            // trả ra 1 list câu hỏi
+            return await query.ToListAsync();
+        }
+
         public async Task<int> UpdateAsync(int id, Question question)
         {
             return await _questionDbContext.Questions.Where(model => model.Id == id)

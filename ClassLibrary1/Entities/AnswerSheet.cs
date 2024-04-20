@@ -14,7 +14,7 @@ namespace datn.Domain
 
         public int PracticeTestId { get; set; }
 
-        public string ChosenOption {  get; set; }
+        public string? ChosenOption {  get; set; }
 
         public bool IsCorrect { get; set; }
 

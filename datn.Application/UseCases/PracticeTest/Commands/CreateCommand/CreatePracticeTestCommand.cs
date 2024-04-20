@@ -1,12 +1,14 @@
-﻿using System;
+﻿using datn.Domain;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace datn.Domain
+namespace datn.Application
 {
-    public class PracticeTestDto
+    public class CreatePracticeTestCommand : IRequest<PracticeTestDto>
     {
         public int Id { get; set; }
 
@@ -15,8 +17,6 @@ namespace datn.Domain
 
         // Thời gian làm
         public int Time { get; set; }
-
-        public int Result { get; set; }
 
         public int UserId { get; set; }
 

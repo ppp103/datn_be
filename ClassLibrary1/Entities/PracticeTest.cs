@@ -14,7 +14,7 @@ namespace datn.Domain
         public int TakeTimes { get; set; }
 
         // Thời gian làm
-        public DateTime Time { get; set; }
+        public int Time { get; set; }
 
         public int Result { get; set; }
 

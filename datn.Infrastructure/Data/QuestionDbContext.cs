@@ -23,6 +23,8 @@ namespace datn.Infrastructure
         public DbSet<Topic> Topics { get; set; }
         public DbSet<QuestionTest> QuestionTests { get; set; }
         public DbSet<TestCategory> TestCategory { get; set; }
+        public DbSet<PracticeTest> PracticeTest { get; set; }  
+        public DbSet<AnswerSheet> AnswerSheet { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

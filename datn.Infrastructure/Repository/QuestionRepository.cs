@@ -161,7 +161,10 @@ namespace datn.Infrastructure
             // lấy ra id những câu hỏi thuộc đề thi
             var query = from q in _questionDbContext.Questions
                         join questionTest in _questionDbContext.QuestionTests
-                        on q.Id equals questionTest.Id
+                        on q.Id equals questionTest.QuestionId
+                        join test in _questionDbContext.Tests
+                        on questionTest.TestId equals test.Id
+                        where test.Id == testId
                         select new QuestionDto
                         {
                             Id = q.Id,

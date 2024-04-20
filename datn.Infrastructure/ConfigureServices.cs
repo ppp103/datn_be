@@ -25,6 +25,7 @@ namespace datn.Infrastructure
             services.AddTransient<ITestRepository, TestRepository>();
             services.AddTransient<ITopicRepository, TopicRepository>();
             services.AddTransient<ITestCategoryRepository, TestCategoryRepository>();
+            services.AddTransient<IPracticeTestRepository, PracticeTestRepository>();
 
             return services;
         }

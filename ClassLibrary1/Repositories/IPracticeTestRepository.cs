@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace datn.Domain
 {
-    public interface IPracticeTestRepository
+    public interface IPracticeTestRepository 
     {
         Task<List<PracticeTestDto>> GetAllPracticeTest();
+        Task<int> GetPracticeTestResult (List<AnswerSheetDto> answerSheet);
         Task<PracticeTestDto> GetPracticeTestById(int id);
         Task<PracticeTestDto> CreateAsync(PracticeTestDto test);
     }

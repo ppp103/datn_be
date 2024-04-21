@@ -16,7 +16,7 @@ namespace datn.Domain
 
         public string? ChosenOption {  get; set; }
 
-        public int Point { get; set; }  
+        //public int Point { get; set; }  
 
         public bool IsCorrect { get; set; }
 

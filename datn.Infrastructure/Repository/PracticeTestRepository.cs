@@ -37,17 +37,27 @@ namespace datn.Infrastructure
                     TakeTimes = 1,
                 };
 
-                var res = await _questionDbContext.PracticeTest.AddAsync(newPracticeTest);
+                var practiceTestEntity = await _questionDbContext.PracticeTest.AddAsync(newPracticeTest);
                 await _questionDbContext.SaveChangesAsync();
 
                 //// Thêm dữ liệu vào AnswerSheet <TraLoiCau>
+                foreach (var item in tuple.Item1) {
+                    item.PracticeTestId = practiceTestEntity.Entity.Id;
+                }
                 await _questionDbContext.AnswerSheet.AddRangeAsync(tuple.Item1);
 
                 // Save change và commit
                 await _questionDbContext.SaveChangesAsync();
                 transaction.Commit();
 
-                return practiceTest;
+                //return practiceTest;
+                var result = new PracticeTestDto()
+                {
+                    Id = practiceTestEntity.Entity.Id,
+                    Result = tuple.Item2
+                };
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -62,9 +72,52 @@ namespace datn.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<PracticeTestDto> GetPracticeTestById(int id)
+        public async Task<PracticeTestDto> GetPracticeTestById(int id)
         {
-            throw new NotImplementedException();
+            // Get practiceTest
+            var practiceTest = _questionDbContext.PracticeTest.FirstOrDefault(p => p.Id == id);
+            // Get answerSheet
+            var query = from answerSheet in _questionDbContext.AnswerSheet
+                        join question in _questionDbContext.Questions
+                        on answerSheet.QuesitonId equals question.Id
+                        where answerSheet.PracticeTestId == id
+                        select new AnswerSheetDto()
+                        {
+                            Id = answerSheet.Id,
+                            QuestionId = answerSheet.QuesitonId,
+                            ChosenOption = answerSheet.ChosenOption,
+                            IsCorrect = answerSheet.IsCorrect,
+                            Explaination = question.Explaination,
+                            DifficultyLevel = question.DifficultyLevel,
+                            Point = question.Point,
+                            Option1 = question.Option1,
+                            Option2 = question.Option2,
+                            Option3 = question.Option3,
+                            Option4 = question.Option4,
+                            Content = question.Content,
+                            LoaiCauId = question.LoaiCauId,
+                            CorrectOption = question.CorrectOption,
+                        };
+            if(practiceTest != null)
+            {
+                var result = new PracticeTestDto()
+                {
+                    Id = practiceTest.Id,
+                    Time = practiceTest.Time,
+                    Result = practiceTest.Result,
+                    UserId = practiceTest.UserId,
+                    TestId = practiceTest.TestId,
+                    CreatedDate = practiceTest.CreatedDate,
+                    CreatedBy = practiceTest.CreatedBy,
+                    AnswerSheets = query.ToList(),
+                };
+                
+                return await Task.FromResult(result);
+            }
+            else
+            {
+                throw new Exception("Bài luyện không tồn tại");
+            }
         }
         public Tuple<List<AnswerSheet>, int> GetPracticeTestResultFunction(List<AnswerSheetDto> answerSheetDtos)
         {

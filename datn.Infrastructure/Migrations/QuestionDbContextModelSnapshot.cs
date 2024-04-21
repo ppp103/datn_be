@@ -51,7 +51,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AnswerSheet");
+                    b.ToTable("AnswerSheet", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.PracticeTest", b =>
@@ -90,7 +90,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PracticeTest");
+                    b.ToTable("PracticeTest", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.Question", b =>
@@ -161,7 +161,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.QuestionCategory", b =>
@@ -177,7 +177,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QuestionCategories");
+                    b.ToTable("QuestionCategories", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.QuestionTest", b =>
@@ -195,7 +195,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QuestionTests");
+                    b.ToTable("QuestionTests", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.Test", b =>
@@ -235,7 +235,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tests");
+                    b.ToTable("Tests", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.TestCategory", b =>
@@ -263,7 +263,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestCategory");
+                    b.ToTable("TestCategory", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.Topic", b =>
@@ -293,7 +293,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Topics");
+                    b.ToTable("Topics", (string)null);
                 });
 
             modelBuilder.Entity("datn.Domain.User", b =>
@@ -332,7 +332,7 @@ namespace datn.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 #pragma warning restore 612, 618
         }

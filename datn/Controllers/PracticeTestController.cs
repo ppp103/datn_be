@@ -17,6 +17,19 @@ namespace datn.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            var practiceTest = await Mediator.Send(new GetPracticeTestByIdQuery() { Id = id });
+            if (practiceTest != null)
+            {
+                return Ok(practiceTest);
+
+            }
+            else { return BadRequest(); }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreatePracticeTestCommand command)
         {

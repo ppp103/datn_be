@@ -11,7 +11,7 @@ namespace datn.Domain
         public int Id { get; set; }
 
         public string TestName { get; set; }
-        // tính theo s
+        // tính theo giây
         public int Time {  get; set; }
 
         public int TotalPoint {  get; set; }

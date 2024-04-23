@@ -22,6 +22,8 @@ namespace datn.Application
 
         public string? ImgLink {  get; set; }
 
+        public int TestCategoryId {  get; set; }
+
         public List<int> Ids { get; set; }
     }
 }

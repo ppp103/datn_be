@@ -11,7 +11,7 @@ namespace datn.Domain
         public int Id { get; set; }
 
         public string TestName { get; set; }
-
+        // tính theo s
         public int Time {  get; set; }
 
         public int TotalPoint {  get; set; }
@@ -23,6 +23,8 @@ namespace datn.Domain
         public string? CreatedDate { get; set; }
 
         public string? ImgLink { get; set; }
+
+        public int TestCategoryId {  get; set; }
 
         //public List<int> Ids { get; set; }
 

@@ -30,6 +30,7 @@ namespace datn.Application
                 NumberOfQuestions = request.NumberOfQuestion,
                 ImgLink = request.ImgLink,
                 CreatedDate = DateTime.Now.ToString(),
+                TestCategoryId = request.TestCategoryId,
                 Ids = request.Ids
             };
             return await _testRepository.CreateAsync(testEntity);

@@ -41,7 +41,7 @@ namespace datn.Domain
 
         public int DifficultyLevel { get; set; }
 
-        // Thời gian ước tính làm mỗi câu hỏi - tính theo phút
+        // Thời gian ước tính làm mỗi câu hỏi - tính theo giây
         public int Time { get; set; }
     }
 }

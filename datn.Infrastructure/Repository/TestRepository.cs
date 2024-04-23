@@ -33,6 +33,7 @@ namespace datn.Infrastructure
                     CreatedDate = test.CreatedDate,
                     ImgLink = test.ImgLink,
                     NumberOfQuestions = test.NumberOfQuestions,
+                    TestCategoryId = test.TestCategoryId
                 };
                 var res = await _questionDbContext.Tests.AddAsync(newTest);
                 await _questionDbContext.SaveChangesAsync();
@@ -59,9 +60,12 @@ namespace datn.Infrastructure
             }
         }
 
-        public async Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize, string keyWord)
+        public async Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize, string keyWord, int? testCategoryId)
         {
             var query = from test in _questionDbContext.Tests
+                        join
+                        testCategory in _questionDbContext.TestCategory
+                        on test.TestCategoryId equals testCategory.Id
                         select new TestDto
                         {
                             Id = test.Id,
@@ -71,6 +75,8 @@ namespace datn.Infrastructure
                             CreatedBy = test.CreatedBy,
                             CreatedDate = test.CreatedDate,
                             ImgLink = test.ImgLink,
+                            TestCategoryName = testCategory.TestCategoryName,
+                            TestCategoryId = testCategory.Id,
                             NumberOfQuestions = test.NumberOfQuestions,
                         };
 
@@ -79,12 +85,20 @@ namespace datn.Infrastructure
                 query = query.Where(q => EF.Functions.Like(q.TestName, $"%{keyWord}%"));
             }
 
+
+            if (testCategoryId != null && testCategoryId != 0)
+            {
+                query = query.Where(q => q.TestCategoryId == testCategoryId);
+            }
+
             return await PagedList<TestDto>.CreateAsync(query.OrderByDescending(q => q.Id), page, pageSize);
         }
 
         public async Task<TestDto> GetByIdAsync(int id)
         {
-            var query = from test in _questionDbContext.Tests
+            var query = from test in _questionDbContext.Tests join 
+                        testCategory in _questionDbContext.TestCategory
+                        on test.TestCategoryId equals testCategory.Id
                         select new TestDto { 
                             Id = test.Id, 
                             TestName = test.TestName,
@@ -94,6 +108,8 @@ namespace datn.Infrastructure
                             CreatedDate = test.CreatedDate,
                             ImgLink = test.ImgLink, 
                             NumberOfQuestions = test.NumberOfQuestions,
+                            TestCategoryId = testCategory.Id,
+                            TestCategoryName = testCategory.TestCategoryName
                         };
             return await query.FirstOrDefaultAsync(t => t.Id == id);
         }

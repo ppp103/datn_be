@@ -11,6 +11,7 @@
     <Folder Include="UseCases\QuestionCategories\Commands\" />
     <Folder Include="UseCases\Tests\Commands\DeleteTest\" />
     <Folder Include="UseCases\Tests\Commands\UpdateTest\" />
+    <Folder Include="UseCases\Tests\Queries\GetTestByUser\" />
     <Folder Include="UseCases\Topics\Commands\" />
   </ItemGroup>
 

@@ -25,5 +25,9 @@ namespace datn.Domain
         public string? ImgLink { get; set; }
 
         public List<int> Ids { get; set; }
+
+        public string TestCategoryName { get; set; }
+
+        public int TestCategoryId { get; set; } 
     }
 }

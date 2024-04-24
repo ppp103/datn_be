@@ -34,6 +34,7 @@ namespace datn.Infrastructure
                     Result = tuple.Item2,
                     UserId = practiceTest.UserId,
                     TestId = practiceTest.TestId,
+                    CreatedDate = DateTime.Now.ToString(),
                     TakeTimes = 1,
                 };
 

@@ -30,6 +30,11 @@ namespace datn.Infrastructure
 
         public async Task<int> DeleteAsync(int id)
         {
+            var question = await _questionDbContext.Questions.FirstOrDefaultAsync(q => q.Id == id);
+            if (question != null)
+            {
+                throw new Domain.SystemException("Xoá thất bại! Câu hỏi đang được sử dụng");
+            }
             return await _questionDbContext.Questions.Where(model => model.Id == id).ExecuteDeleteAsync();
         }
 

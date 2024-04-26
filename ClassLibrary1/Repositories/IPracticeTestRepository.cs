@@ -11,6 +11,7 @@ namespace datn.Domain
         Task<List<PracticeTestDto>> GetAllPracticeTest();
         Task<int> GetPracticeTestResult (List<AnswerSheetDto> answerSheet);
         Task<PracticeTestDto> GetPracticeTestById(int id);
+        Task<List<PracticeTestDto>> GetPracticeTestByTestId(int id);
         Task<PracticeTestDto> CreateAsync(PracticeTestDto test);
     }
 }

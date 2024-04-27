@@ -8,40 +8,40 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
-{
-    options.InvalidModelStateResponseFactory = context =>
-    {
-        var errors = context.ModelState.Values
-            .SelectMany(x => x.Errors)
-            .Select(x => new
-            {
-                Exception = x.Exception,
-                ErrorMessage = x.ErrorMessage
-            });
+//builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+//{
+//    options.InvalidModelStateResponseFactory = context =>
+//    {
+//        var errors = context.ModelState.Values
+//            .SelectMany(x => x.Errors)
+//            .Select(x => new
+//            {
+//                Exception = x.Exception,
+//                ErrorMessage = x.ErrorMessage
+//            });
 
-        var baseException = new
-        {
-            ErrorCode = 400,
-            UserMessage = errors.FirstOrDefault()?.ErrorMessage,
-            DevMessage = errors.FirstOrDefault()?.ErrorMessage,
-            TraceId = "",
-            MoreInfo = "",
-            Errors = errors
-        };
+//        var baseException = new
+//        {
+//            ErrorCode = 400,
+//            UserMessage = errors.FirstOrDefault()?.ErrorMessage,
+//            DevMessage = errors.FirstOrDefault()?.ErrorMessage,
+//            TraceId = "",
+//            MoreInfo = "",
+//            Errors = errors
+//        };
 
-        var jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true
-        };
+//        var jsonOptions = new JsonSerializerOptions
+//        {
+//            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+//            WriteIndented = true
+//        };
 
-        var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(baseException, jsonOptions);
-        var jsonString = Encoding.UTF8.GetString(jsonBytes);
+//        var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(baseException, jsonOptions);
+//        var jsonString = Encoding.UTF8.GetString(jsonBytes);
 
-        return new BadRequestObjectResult(jsonString);
-    };
-});
+//        return new BadRequestObjectResult(jsonString);
+//    };
+//});
 // add layer dependency
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);

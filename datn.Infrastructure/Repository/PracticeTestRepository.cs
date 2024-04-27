@@ -1,4 +1,5 @@
-﻿using datn.Domain;
+﻿using datn.Application;
+using datn.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,6 +103,8 @@ namespace datn.Infrastructure
                         };
             if (practiceTest != null)
             {
+                var test = _questionDbContext.Tests.SingleOrDefault(test => test.Id == practiceTest.TestId);
+
                 var result = new PracticeTestDto()
                 {
                     Id = practiceTest.Id,
@@ -109,6 +112,8 @@ namespace datn.Infrastructure
                     Result = practiceTest.Result,
                     UserId = practiceTest.UserId,
                     TestId = practiceTest.TestId,
+                    TestName = test?.TestName,
+                    TotalPoint = test?.TotalPoint,
                     CreatedDate = practiceTest.CreatedDate,
                     CreatedBy = practiceTest.CreatedBy,
                     AnswerSheets = query.ToList(),
@@ -122,38 +127,26 @@ namespace datn.Infrastructure
             }
         }
 
-        public async Task<List<PracticeTestDto>> GetPracticeTestByTestId(int testId)
+        public async Task<List<PracticeTestDto>> GetPracticeTestByTypeId(int id, int type)
         {
+            // Type = 0 lấy theo userId, Type = 1 lấy theo testId
             // Get practiceTest
             var res = new List<PracticeTestDto>();
-            var practiceTestList = _questionDbContext.PracticeTest.Where(x => x.TestId == testId).ToList();
+            var practiceTestList = new List<PracticeTest>();
+            if (type == (int)PracticeTestEnum.TestId) 
+            {
+                practiceTestList = _questionDbContext.PracticeTest.Where(x => x.TestId == id).ToList();
+            }
+
+            if (type == (int)PracticeTestEnum.UserId)
+            {
+                practiceTestList = _questionDbContext.PracticeTest.Where(x => x.UserId == id).ToList();
+            }
 
             foreach (var practiceTest in practiceTestList)
             {
+                var test = _questionDbContext.Tests.SingleOrDefault(test => test.Id == practiceTest.TestId);
 
-                //var practiceTest = _questionDbContext.PracticeTest.FirstOrDefault(p => p.Id == id);
-                // Get answerSheet
-                //var query = from answerSheet in _questionDbContext.AnswerSheet
-                //            join question in _questionDbContext.Questions
-                //            on answerSheet.QuesitonId equals question.Id
-                //            where answerSheet.PracticeTestId == practiceTest.Id
-                //            select new AnswerSheetDto()
-                //            {
-                //                Id = answerSheet.Id,
-                //                QuestionId = answerSheet.QuesitonId,
-                //                ChosenOption = answerSheet.ChosenOption,
-                //                IsCorrect = answerSheet.IsCorrect,
-                //                Explaination = question.Explaination,
-                //                DifficultyLevel = question.DifficultyLevel,
-                //                Point = question.Point,
-                //                Option1 = question.Option1,
-                //                Option2 = question.Option2,
-                //                Option3 = question.Option3,
-                //                Option4 = question.Option4,
-                //                Content = question.Content,
-                //                LoaiCauId = question.LoaiCauId,
-                //                CorrectOption = question.CorrectOption,
-                //            };
                 if (practiceTest != null)
                 {
                     var result = new PracticeTestDto()
@@ -162,6 +155,8 @@ namespace datn.Infrastructure
                         Time = practiceTest.Time,
                         Result = practiceTest.Result,
                         UserId = practiceTest.UserId,
+                        TestName = test?.TestName,
+                        TotalPoint = test?.TotalPoint,
                         TestId = practiceTest.TestId,
                         CreatedDate = practiceTest.CreatedDate,
                         CreatedBy = practiceTest.CreatedBy,
@@ -172,7 +167,7 @@ namespace datn.Infrastructure
             }
             if (res != null)
             {
-                return await Task.FromResult(res);
+                return await Task.FromResult(res.OrderByDescending(x => x.Id).ToList());
             }
             else
             {

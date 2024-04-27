@@ -11,4 +11,10 @@ namespace datn.Application
         public const int MaxPageSize = 2147483646;
         public const int MinPageSize = 10;
     }
+
+    public enum PracticeTestEnum
+    {
+        UserId = 0,
+        TestId = 1,
+    }
 }

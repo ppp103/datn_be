@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class GetPracticeTestByTestIdQuery : IRequest<List<PracticeTestDto>>
+    public class GetPracticeTestByTypeIdQuery : IRequest<List<PracticeTestDto>>
     {
         public int TestId { get; set; }
-
+        public int Type {  get; set; }
     }
 }

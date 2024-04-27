@@ -30,10 +30,10 @@ namespace datn.API.Controllers
         }
 
         [HttpGet]
-        [Route("get-practice-test-by-test-id")]
-        public async Task<IActionResult> GetByTestIdAsync([FromQuery] int id)
+        [Route("get-practice-test-by-type-id")]
+        public async Task<IActionResult> GetByTestIdAsync([FromQuery] int id, int type)
         {
-            var practiceTest = await Mediator.Send(new GetPracticeTestByTestIdQuery() { TestId = id });
+            var practiceTest = await Mediator.Send(new GetPracticeTestByTypeIdQuery() { TestId = id, Type = type});
             if (practiceTest != null)
             {
                 return Ok(practiceTest);

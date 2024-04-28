@@ -26,6 +26,30 @@ namespace datn.Domain
 
             return new PagedList<T>(items, paginationInfo);
         }
+
+        public static async Task<PagedList<T>> CreateAsync(IEnumerable<T> source, int page, int pageSize)
+        {
+            int count = source.Count();
+            int pageIndex = page > 0 ? page : 1; // Ensure pageIndex is greater than 0
+            int rowModify = 0; // Assuming rowModify is defined somewhere else
+
+            switch (pageSize)
+            {
+                case -1:
+                    return new PagedList<T>(source.ToList(), new PaginationInfo(pageIndex, pageSize, count));
+                case 0:
+                    pageSize = 10;
+                    break;
+            }
+
+            List<T> items = source.Skip((pageIndex - 1) * pageSize + rowModify).Take(pageSize).ToList();
+            PagedList<T> pagedList = new PagedList<T>(
+                items,
+                new PaginationInfo(pageIndex, pageSize, count)
+            );
+            return pagedList;
+        }
+
     }
 
     public class PaginationInfo

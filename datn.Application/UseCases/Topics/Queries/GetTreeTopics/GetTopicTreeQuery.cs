@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class GetTopicTreeQuery : IRequest<List<TopicTreeDto>>
+    public class GetTopicTreeQuery : PagingRequest, IRequest<PagedList<TopicTreeDto>>
     {
         //public string? Name { get; set; }
 
-        //public int? ParentId { get; set; }
+        public int? Level { get; set; } 
+        public int? ParentId { get; set; }
 
         //public short? SortDescending { get; set; } = 1;
     }

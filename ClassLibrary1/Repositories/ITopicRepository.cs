@@ -8,7 +8,10 @@ namespace datn.Domain
 {
     public interface ITopicRepository
     {
-        Task<List<TopicTreeDto>> GetTopicTreeAsync();
-        Task<List<TopicDto>> GetTopicFlatAsync();
+        Task<PagedList<TopicTreeDto>> GetTopicTreeAsync(int page, int pageSize, string keyWord, int? parentId, int? level);
+        Task<List<TopicDto>> GetTopicFlatAsync(int parentId);
+        Task<TopicDto> CreateTopicAsync(TopicDto topicDto);
+        Task<TopicDto> UpdateTopicAsync(int id, TopicDto topicDto);
+
     }
 }

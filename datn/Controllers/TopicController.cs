@@ -9,19 +9,41 @@ namespace datn.API.Controllers
     public class TopicController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetAllPaggingAsync()
+        public async Task<IActionResult> GetAllPaggingAsync([FromQuery] GetTopicTreeQuery request)
         {
-            var topics = await Mediator.Send(new GetTopicTreeQuery());
+            var topics = await Mediator.Send(request);
             return Ok(topics);
         }
 
         [HttpGet]
         [Route("get-flat-topic")]
-        public async Task<IActionResult> GetFlatAllAsync()
+        public async Task<IActionResult> GetFlatAllAsync([FromQuery] int parentId)
         {
-            var topics = await Mediator.Send(new GetTopicFlatQuery());
+            var topics = await Mediator.Send(new GetTopicFlatQuery{ ParentId = parentId });
             return Ok(topics);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(CreateTopicCommand command)
+        {
+            var createdTopic= await Mediator.Send(command);
+
+            if (createdTopic != null)
+            {
+                return StatusCode(201, createdTopic);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(UpdateTopicCommand command)
+        {
+            var updatedTopic = await Mediator.Send(command);
+
+            return StatusCode(200, updatedTopic);
+        }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Azure.Core;
+using datn.Application;
 using datn.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace datn.Infrastructure
 {
@@ -22,21 +25,41 @@ namespace datn.Infrastructure
 
         }
 
-        public async Task<List<TopicDto>> GetTopicFlatAsync()
+        public async Task<TopicDto> CreateTopicAsync(TopicDto topicRequest)
+        {
+            var topic = new Topic()
+            {
+                Name = topicRequest.Name,
+                ParentId = topicRequest.ParentId,
+            };
+
+            var res = await _questionDbContext.Topics.AddAsync(topic);
+            await _questionDbContext.SaveChangesAsync();
+
+            return topicRequest;
+        }
+
+        public async Task<List<TopicDto>> GetTopicFlatAsync(int parentId)
         {
             var query = from topic in _questionDbContext.Topics
                         select new TopicDto()
                         {
                             Id = topic.Id,
                             Name = topic.Name,
+                            ParentId = topic.ParentId
                         };
-                
+
+            if (parentId != null && parentId != 0)
+            {
+                query = query.Where(q => q.ParentId == parentId);
+            }
+
             //var res = query.OrderByDescending(t => t.Id).ToList();
 
             return query.OrderByDescending(q => q.Id).ToList();
         }
 
-        public Task<List<TopicTreeDto>> GetTopicTreeAsync()
+        public async Task<PagedList<TopicTreeDto>> GetTopicTreeAsync(int page, int pageSize, string keyWord, int? parentId, int? level)
         {
             var queue = new Queue<TopicTreeDto>();
             var lstCheck = new List<TopicTreeDto>();
@@ -99,10 +122,22 @@ namespace datn.Infrastructure
                     temp.Child.Add(item);
                 }
             }
+            var resFinal = await PagedList<TopicTreeDto>.CreateAsync(result, page, pageSize);
 
-            return Task.FromResult(result);
-
+            //return Task.FromResult(result);
+            return await Task.FromResult(resFinal);
         }
 
+        public async Task<TopicDto> UpdateTopicAsync(int id, TopicDto topicDto)
+        {
+            await _questionDbContext.Topics.Where(model => model.Id == id)
+                .ExecuteUpdateAsync(setters => setters.
+                    SetProperty(m => m.Id, topicDto.Id).
+                    SetProperty(m => m.Name, topicDto.Name).
+                    SetProperty(m => m.ParentId, topicDto.ParentId)
+                );
+
+            return topicDto;
+        }
     }
 }

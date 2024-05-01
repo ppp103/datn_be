@@ -21,9 +21,10 @@ namespace datn.Infrastructure
             using var transaction = _questionDbContext.Database.BeginTransaction();
             try
             {
-                // Còn số lần thi sẽ kiểm tra bằng cách khác: kiểm tra trong BaiLuyen đã có userId và TestId chưa
+                // Còn số lần thi sẽ kiểm tra bằng cách khác: Count BaiLuyen đã có userId và TestId chưa
                 // Nếu có: +1 lần thi
                 // Nếu không = 1
+                var takeTimes = _questionDbContext.PracticeTest.Count(x => x.UserId == practiceTest.UserId && x.TestId == practiceTest.TestId) + 1;
 
                 // Lấy ra kết quả
                 var tuple = GetPracticeTestResultFunction(practiceTest.AnswerSheets);
@@ -37,7 +38,7 @@ namespace datn.Infrastructure
                     TestId = practiceTest.TestId,
                     CreatedDate = DateTime.Now.ToString(),
                     CreatedBy = practiceTest.CreatedBy,
-                    TakeTimes = 1, // tạm thời fix cứng
+                    TakeTimes = takeTimes, // tạm thời fix cứng
                 };
 
                 var practiceTestEntity = await _questionDbContext.PracticeTest.AddAsync(newPracticeTest);

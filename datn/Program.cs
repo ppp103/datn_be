@@ -4,51 +4,48 @@ using datn.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-//builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
-//{
-//    options.InvalidModelStateResponseFactory = context =>
-//    {
-//        var errors = context.ModelState.Values
-//            .SelectMany(x => x.Errors)
-//            .Select(x => new
-//            {
-//                Exception = x.Exception,
-//                ErrorMessage = x.ErrorMessage
-//            });
-
-//        var baseException = new
-//        {
-//            ErrorCode = 400,
-//            UserMessage = errors.FirstOrDefault()?.ErrorMessage,
-//            DevMessage = errors.FirstOrDefault()?.ErrorMessage,
-//            TraceId = "",
-//            MoreInfo = "",
-//            Errors = errors
-//        };
-
-//        var jsonOptions = new JsonSerializerOptions
-//        {
-//            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-//            WriteIndented = true
-//        };
-
-//        var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(baseException, jsonOptions);
-//        var jsonString = Encoding.UTF8.GetString(jsonBytes);
-
-//        return new BadRequestObjectResult(jsonString);
-//    };
-//});
 // add layer dependency
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(swagger =>
+{
+    swagger.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Title",
+        Description = "Description",
+    });
+
+    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header
+    });
+
+    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            }, Array.Empty<string>()
+        }
+    }); ;
+});
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -73,6 +70,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -36,6 +36,7 @@ namespace datn.Infrastructure
                     UserId = practiceTest.UserId,
                     TestId = practiceTest.TestId,
                     CreatedDate = DateTime.Now.ToString(),
+                    CreatedBy = practiceTest.CreatedBy,
                     TakeTimes = 1, // tạm thời fix cứng
                 };
 

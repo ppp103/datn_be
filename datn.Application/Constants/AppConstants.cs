@@ -17,4 +17,10 @@ namespace datn.Application
         UserId = 0,
         TestId = 1,
     }
+
+    public enum Role
+    {
+        User = 0,
+        Admin = 1,
+    }
 }

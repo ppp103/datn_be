@@ -25,6 +25,8 @@ namespace datn.Infrastructure
         public DbSet<TestCategory> TestCategory { get; set; }
         public DbSet<PracticeTest> PracticeTest { get; set; }  
         public DbSet<AnswerSheet> AnswerSheet { get; set; }
+        public DbSet<User> User { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

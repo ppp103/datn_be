@@ -38,7 +38,7 @@ namespace datn.Infrastructure
                     TestId = practiceTest.TestId,
                     CreatedDate = DateTime.Now.ToString(),
                     CreatedBy = practiceTest.CreatedBy,
-                    TakeTimes = takeTimes, // tạm thời fix cứng
+                    TakeTimes = takeTimes,
                 };
 
                 var practiceTestEntity = await _questionDbContext.PracticeTest.AddAsync(newPracticeTest);
@@ -238,6 +238,31 @@ namespace datn.Infrastructure
 
             // Return điểm
             return Task.FromResult(result);
+        }
+
+        public Task<StatisticDto> GetStatisticByUser(int userId, int time)
+        {
+            //var totalTakenTest = from practiceTest in _questionDbContext.PracticeTest
+            //                     where practiceTest.UserId == userId
+            //                     count distinct
+            
+            // Tổng số bài test
+            var totalTakenTest = _questionDbContext.PracticeTest
+                                    .Where(x => x.UserId == userId)
+                                    .Select(x => x.TestId)
+                                    .Distinct()
+                                    .Count();
+
+            // Tổng thời gian làm
+            var totalTime = _questionDbContext.PracticeTest
+                                .Where(x => x.UserId == userId)
+                                .Select(x => x.Time)
+                                .Sum();
+
+            // <% đúng của từng bài luyện> <point / totalPoint>
+            
+
+            throw new NotImplementedException();
         }
     }
 }

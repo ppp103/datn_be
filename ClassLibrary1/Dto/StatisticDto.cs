@@ -15,9 +15,9 @@ namespace datn.Domain
         public int TotalPracticeTime {  get; set; }
 
         // Tỉ lệ đúng theo từng bài test
-        public List<double>? CorrectPercentage { get; set; }  
+        public List<ChartDto>? CorrectPercentage { get; set; }  
 
         // Tỉ lệ đúng theo từng dạng câu hỏi
-        public double CorrectPercentageByQuestionCategory { get; set; } 
+        public List<CorrectRateByTopicAndUserDto> CorrectPercentageByTopicAndUser { get; set; } 
     }
 }

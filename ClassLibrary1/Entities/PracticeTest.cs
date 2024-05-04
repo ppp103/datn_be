@@ -18,7 +18,7 @@ namespace datn.Domain
 
         public int Result { get; set; }
 
-        public int UserId { get; set; } 
+        public int UserId { get; set; }
 
         public int TestId { get; set; }
     }

@@ -1,20 +1,24 @@
 ﻿using datn.Application;
 using datn.Domain;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace datn.Infrastructure
 {
     public class PracticeTestRepository : IPracticeTestRepository
     {
         private readonly QuestionDbContext _questionDbContext;
+        private readonly ITestRepository _testRepository;
 
-        public PracticeTestRepository(QuestionDbContext questionDbContext)
+        public PracticeTestRepository(QuestionDbContext questionDbContext, ITestRepository testRepository)
         {
             _questionDbContext = questionDbContext;
+            _testRepository = testRepository;
         }
         public async Task<PracticeTestDto> CreateAsync(PracticeTestDto practiceTest)
         {
@@ -135,7 +139,7 @@ namespace datn.Infrastructure
             // Get practiceTest
             var res = new List<PracticeTestDto>();
             var practiceTestList = new List<PracticeTest>();
-            if (type == (int)PracticeTestEnum.TestId) 
+            if (type == (int)PracticeTestEnum.TestId)
             {
                 practiceTestList = _questionDbContext.PracticeTest.Where(x => x.TestId == id).ToList();
             }
@@ -240,12 +244,12 @@ namespace datn.Infrastructure
             return Task.FromResult(result);
         }
 
-        public Task<StatisticDto> GetStatisticByUser(int userId, int time)
+        public async Task<StatisticDto> GetStatisticByUser(int userId, int time)
         {
-            //var totalTakenTest = from practiceTest in _questionDbContext.PracticeTest
-            //                     where practiceTest.UserId == userId
-            //                     count distinct
-            
+            /// Thiếu lọc theo thời gian 
+            /// và lấy tỉ lệ đúng các dạng câu hỏi
+            /// 
+
             // Tổng số bài test
             var totalTakenTest = _questionDbContext.PracticeTest
                                     .Where(x => x.UserId == userId)
@@ -259,10 +263,102 @@ namespace datn.Infrastructure
                                 .Select(x => x.Time)
                                 .Sum();
 
-            // <% đúng của từng bài luyện> <point / totalPoint>
-            
+            // <% đúng của từng bài luyện> <result / totalPoint>
+            List<ChartDto> correctPercentage = new List<ChartDto>();
+            var practiceTestList = _questionDbContext.PracticeTest.ToList();
 
-            throw new NotImplementedException();
+            foreach (var practiceTest in practiceTestList)
+            {
+                //var test = _questionDbContext.Tests.Where(x => x.Id == practiceTest.TestId);
+                var test = await _testRepository.GetByIdAsync(practiceTest.TestId);
+                DateTime date;
+                var formattedDate = "";
+                if (DateTime.TryParseExact(practiceTest.CreatedDate, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out date))
+                {
+                    formattedDate = date.ToString("dd/MM/yyyy");
+                }
+
+                if (practiceTest.UserId == userId)
+                {
+                    //var item = (double)practiceTest.Result / test.TotalPoint;
+
+                    //correctPercentage.Add(new ChartDto
+                    //{
+                    //    Label = formattedDate,
+                    //    Quantity = Math.Round(item * 100, 2)
+                    //});
+
+                    var numberOfCorrectAnswers = _questionDbContext.AnswerSheet.Where(x => x.IsCorrect && x.PracticeTestId == practiceTest.Id).Count();
+
+                    var item = (double)numberOfCorrectAnswers / test.NumberOfQuestions;
+
+                    correctPercentage.Add(new ChartDto
+                    {
+                        Label = formattedDate,
+                        Quantity = Math.Round(item * 100, 2)
+                    });
+
+                }
+            }
+
+            // Tỉ lệ đúng theo chủ đề
+            var correctRatesByTopicAndUser = new List<CorrectRateByTopicAndUserDto>();
+
+            //List<Topic> topics = _questionDbContext.Topics.ToList();
+
+            List<Topic> topics = (from topic in _questionDbContext.Topics
+                                  join question in _questionDbContext.Questions on topic.Id equals question.ChuDeId
+                                  join answerSheet in _questionDbContext.AnswerSheet on question.Id equals answerSheet.QuesitonId
+                                  select topic)
+                                  .Distinct()
+                                  .ToList();
+                                 
+
+            // Lấy ra chủ đề 
+            foreach (var topicElement in topics)
+            {
+                var totalQuestionsByTopic =
+                                (from topic in _questionDbContext.Topics
+                                     join question in _questionDbContext.Questions on topic.Id equals question.ChuDeId
+                                     join answerSheet in _questionDbContext.AnswerSheet on question.Id equals answerSheet.QuesitonId
+                                     join practiceTest in _questionDbContext.PracticeTest on answerSheet.PracticeTestId equals practiceTest.Id
+                                     where practiceTest.UserId == userId && topic.Id == topicElement.Id
+                                     select topic
+                                 ).Count();
+
+                var correctQuestionByTopic = 
+                                (from topic in _questionDbContext.Topics
+                                    join question in _questionDbContext.Questions on topic.Id equals question.ChuDeId
+                                    join answerSheet in _questionDbContext.AnswerSheet on question.Id equals answerSheet.QuesitonId
+                                    join practiceTest in _questionDbContext.PracticeTest on answerSheet.PracticeTestId equals practiceTest.Id
+                                    where practiceTest.UserId == userId && topic.Id == topicElement.Id && answerSheet.IsCorrect
+                                    select topic
+                                ).Count();
+
+                if(totalQuestionsByTopic == 0)
+                {
+                    totalQuestionsByTopic = 1;
+                }
+
+                correctRatesByTopicAndUser.Add(new CorrectRateByTopicAndUserDto()
+                {
+                    TopicId = topicElement.Id,
+                    TopicName = topicElement.Name,
+                    CorrectRate = Math.Round((double)correctQuestionByTopic / totalQuestionsByTopic * 100, 2)
+                });
+            }
+            // 
+                       /// Return res
+            var res = new StatisticDto()
+            {
+                TotalTakenTest = totalTakenTest,
+                TotalPracticeTime = totalTime,
+                CorrectPercentage = correctPercentage,
+                CorrectPercentageByTopicAndUser = correctRatesByTopicAndUser,
+            };
+
+            return res;
+            //throw new NotImplementedException();
         }
     }
 }

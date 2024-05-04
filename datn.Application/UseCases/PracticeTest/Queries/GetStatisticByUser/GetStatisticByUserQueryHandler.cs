@@ -17,9 +17,9 @@ namespace datn.Application
             _practiceTestRepository = practiceTestRepository;   
         }
 
-        public Task<StatisticDto> Handle(GetStatisticByUserQuery request, CancellationToken cancellationToken)
+        public async Task<StatisticDto> Handle(GetStatisticByUserQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _practiceTestRepository.GetStatisticByUser(request.UserId, request.Time);
         }
     }
 }

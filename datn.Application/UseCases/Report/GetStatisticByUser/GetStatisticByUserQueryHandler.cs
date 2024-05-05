@@ -10,16 +10,16 @@ namespace datn.Application
 {
     public class GetStatisticByUserQueryHandler : IRequestHandler<GetStatisticByUserQuery, StatisticDto>
     {
-        private readonly IPracticeTestRepository _practiceTestRepository;
+        private readonly IReportRepository _reportRepository;
 
-        public GetStatisticByUserQueryHandler(IPracticeTestRepository practiceTestRepository)
+        public GetStatisticByUserQueryHandler(IReportRepository reportRepository)
         {
-            _practiceTestRepository = practiceTestRepository;   
+            _reportRepository = reportRepository;   
         }
 
         public async Task<StatisticDto> Handle(GetStatisticByUserQuery request, CancellationToken cancellationToken)
         {
-            return await _practiceTestRepository.GetStatisticByUser(request.UserId, request.Time);
+            return await _reportRepository.GetStatisticByUser(request.UserId, request.Time);
         }
     }
 }

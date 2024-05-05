@@ -13,6 +13,6 @@ namespace datn.Domain
         Task<PracticeTestDto> GetPracticeTestById(int id);
         Task<List<PracticeTestDto>> GetPracticeTestByTypeId(int id, int type);
         Task<PracticeTestDto> CreateAsync(PracticeTestDto test);
-        Task<StatisticDto> GetStatisticByUser(int userId, int time);
+        //Task<StatisticDto> GetStatisticByUser(int userId, int time);
     }
 }

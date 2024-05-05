@@ -48,6 +48,7 @@ namespace datn.Infrastructure
             services.AddTransient<ITestCategoryRepository, TestCategoryRepository>();
             services.AddTransient<IPracticeTestRepository, PracticeTestRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IReportRepository, ReportRepository>();
 
             return services;
         }

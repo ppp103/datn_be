@@ -31,19 +31,6 @@ namespace datn.API.Controllers
         }
 
         [HttpGet]
-        [Route("get-statistic-by-user")]
-        public async Task<IActionResult> GetStatisticByUser([FromQuery] int userId, int time)
-        {
-            var practiceTest = await Mediator.Send(new GetStatisticByUserQuery() { UserId = userId, Time = time});
-            if (practiceTest != null)
-            {
-                return Ok(practiceTest);
-
-            }
-            else { return BadRequest(); }
-        }
-
-        [HttpGet]
         [Route("get-practice-test-by-type-id")]
         public async Task<IActionResult> GetByTestIdAsync([FromQuery] int id, int type)
         {

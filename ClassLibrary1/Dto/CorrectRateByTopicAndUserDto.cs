@@ -10,6 +10,8 @@ namespace datn.Domain
     {
         public int TopicId { get; set; } 
         public string TopicName { get; set; }
+        public int CorrectAnswers { get; set; }
+        public int TotalAnswers { get; set; }
         public double CorrectRate { get; set; } 
     }
 }

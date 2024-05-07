@@ -130,6 +130,8 @@ namespace datn.Infrastructure
                 {
                     TopicId = topicElement.Id,
                     TopicName = topicElement.Name,
+                    CorrectAnswers = correctQuestionByTopic,
+                    TotalAnswers = totalQuestionsByTopic,
                     CorrectRate = Math.Round((double)correctQuestionByTopic / totalQuestionsByTopic * 100, 2)
                 });
             }

@@ -9,6 +9,7 @@ namespace datn.Domain
     public class ChartDto
     {
         public string Label { get; set; }
+        public int Time { get; set; }
         public double? Quantity { get; set; }
     }
 }

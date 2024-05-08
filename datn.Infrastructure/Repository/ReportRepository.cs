@@ -38,12 +38,6 @@ namespace datn.Infrastructure
             // Lần làm bài gần nhất
             var lastestPracticeTime = _questionDbContext.PracticeTest.OrderByDescending(x => x.Id).FirstOrDefault(x => x.UserId == userId);
 
-            // % đúng trung bình
-            double averageCorrecPercent = 0;
-
-            // Thời gian trung bình hoàn thành bài test
-            double averageTime = 0;
-
             // Tổng thời gian làm
             var totalTime = _questionDbContext.PracticeTest
                                 .Where(x => x.UserId == userId)
@@ -81,9 +75,9 @@ namespace datn.Infrastructure
                     correctPercentage.Add(new ChartDto
                     {
                         Label = formattedDate,
+                        Time = practiceTest.Time,
                         Quantity = Math.Round(item * 100, 2)
                     });
-
                 }
             }
 
@@ -135,18 +129,28 @@ namespace datn.Infrastructure
                     CorrectRate = Math.Round((double)correctQuestionByTopic / totalQuestionsByTopic * 100, 2)
                 });
             }
+
+            // Thời gian trung bình
+            var averageTime = Math.Round((double)correctPercentage.Sum(x => x.Time) / correctPercentage.Count(), 2);
+
+            // Độ chính xác trung bình
+            var averageCorrecPercent = Math.Round((double)correctPercentage.Sum(x => x.Quantity) / correctPercentage.Count(), 2);
+
+            var totalPracticeTests = correctPercentage.Count();
             // 
             /// Return res
             var res = new StatisticDto()
             {
                 TotalTakenTest = totalTakenTest,
                 TotalPracticeTime = totalTime,
+                AverageCorrecPercent = averageCorrecPercent,
+                AverageTime = averageTime,
+                TotalPracticeTestTaken = totalPracticeTests,
                 CorrectPercentage = correctPercentage,
                 CorrectPercentageByTopicAndUser = correctRatesByTopicAndUser,
             };
 
             return res;
-            //throw new NotImplementedException();
         }
 
     }

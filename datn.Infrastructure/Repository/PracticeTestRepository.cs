@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace datn.Infrastructure
@@ -133,7 +134,7 @@ namespace datn.Infrastructure
             }
         }
 
-        public async Task<List<PracticeTestDto>> GetPracticeTestByTypeId(int id, int type)
+        public async Task<PagedList<PracticeTestDto>> GetPracticeTestByTypeId(int id, int type, int page, int pageSize)
         {
             // Type = 0 lấy theo userId, Type = 1 lấy theo testId
             // Get practiceTest
@@ -173,7 +174,8 @@ namespace datn.Infrastructure
             }
             if (res != null)
             {
-                return await Task.FromResult(res.OrderByDescending(x => x.Id).ToList());
+                return await PagedList<PracticeTestDto>.CreateAsync(res.OrderByDescending(q => q.Id), page, pageSize);
+                //return await Task.FromResult(res.OrderByDescending(x => x.Id).ToList());
             }
             else
             {

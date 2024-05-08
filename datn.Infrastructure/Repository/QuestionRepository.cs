@@ -38,40 +38,6 @@ namespace datn.Infrastructure
             return await _questionDbContext.Questions.Where(model => model.Id == id).ExecuteDeleteAsync();
         }
 
-        //public async Task<PagedList<Question>> GetAllQuestionPaggingAsync(int page, int pageSize, string keyWord)
-        //{
-        //    //IQueryable<Question> query = _questionDbContext.Questions;
-        //    //IQueryable<Topic> topic = _questionDbContext.Topics;
-        //    //IQueryable<QuestionCategory> category = _questionDbContext.QuestionCategories;
-        //    var query = from question in _questionDbContext.Questions
-        //                join topic in _questionDbContext.Topics
-        //                on question.ChuDeId equals topic.Id
-        //                join category in _questionDbContext.QuestionCategories
-        //                on question.LoaiCauId equals category.Id
-        //                select new Question
-        //                {
-        //                    Id = question.Id,
-        //                    Content = question.Content,
-        //                    ChuDe = topic.Name,
-        //                    LoaiCau = category.QuestionCategoryName,
-        //                    Option1 = question.Option1,
-        //                    Option2 = question.Option2,
-        //                    Option3 = question.Option3,
-        //                    Option4 = question.Option4,
-        //                    CorrectOption = question.CorrectOption,
-        //                    Explaination = question.Explaination,
-        //                    ChuDeId = question.ChuDeId,
-        //                    LoaiCauId = question.LoaiCauId
-        //                };
-
-        //    if (!string.IsNullOrWhiteSpace(keyWord)){
-        //        query = query.Where(q => EF.Functions.Like(q.Content, $"%{keyWord}%"));
-        //    }
-
-        //    var res = await PagedList<Question>.CreateAsync(query.OrderByDescending(q => q.Id), page, pageSize);
-        //    return res;
-        //}
-
         public async Task<PagedList<QuestionDto>> GetAllQuestionPaggingAsync(int page, int pageSize, string keyWord, int? chuDeId, int? loaiCauId, int? difficultyLevel)
         {
             var query = from question in _questionDbContext.Questions
@@ -117,8 +83,6 @@ namespace datn.Infrastructure
             {
                 query = query.Where(q => q.DifficultyLevel == difficultyLevel);
             }
-
-
 
             var res = await PagedList<QuestionDto>.CreateAsync(query.OrderByDescending(q => q.Id), page, pageSize);
             return res;

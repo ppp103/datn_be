@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace datn.Infrastructure
 {
@@ -17,6 +18,51 @@ namespace datn.Infrastructure
             _questionDbContext = questionDbContext;
             _testRepository = testRepository;
         }
+
+        public async Task<AdminStaticsDto> GetAdminStatistic()
+        {
+            var totalUsers = _questionDbContext.User.Count();
+            var totalTests = _questionDbContext.Tests.Count();
+            var totalQuestions = _questionDbContext.Questions.Count();
+            var totalPracticeTests = _questionDbContext.PracticeTest.Count();
+
+            // Lấy bài 10 bài test gần nhất
+            //var tenLastPracticeTests = _questionDbContext.PracticeTest.OrderByDescending(x => x.Id).Take(10).ToList();
+
+            //var numberOfPracticeTestByDate = _questionDbContext.PracticeTest.GroupBy(t => t.CreatedDate)
+            //                        .Select(g => new { Date = g.Key, Count = g.Count() }).ToList();
+
+            // Tạo một Dictionary để lưu trữ số lượng bài test cho mỗi ngày
+            var tests = _questionDbContext.PracticeTest.ToList();
+            
+            Dictionary<string, int> testCountByDate = new Dictionary<string, int>();
+
+            // Đếm số lượng bài test cho mỗi ngày
+            foreach (var test in tests)
+            {
+                string date = DateTime.ParseExact(test.CreatedDate, "MM/dd/yyyy HH:mm:ss", null).ToString("MM/dd/yyyy");
+                if (testCountByDate.ContainsKey(date))
+                {
+                    testCountByDate[date]++;
+                }
+                else
+                {
+                    testCountByDate[date] = 1;
+                }
+            }
+
+            var totalPracticeTestByDate = testCountByDate.Select(pair => new ChartDto() { Label = pair.Key, Quantity = pair.Value }).ToList();
+
+            return new AdminStaticsDto()
+            {
+                TotalUsers = totalUsers,
+                TotalTests = totalTests,
+                TotalQuestions = totalQuestions,
+                TotalPracticeTests = totalPracticeTests,
+                PracticeTestsChart = totalPracticeTestByDate
+            };
+        }
+
         public async Task<StatisticDto> GetStatisticByUser(int userId, int time)
         {
             /// Thiếu lọc theo thời gian 

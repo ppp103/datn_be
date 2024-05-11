@@ -9,5 +9,6 @@ namespace datn.Domain
     public interface IReportRepository
     {
         Task<StatisticDto> GetStatisticByUser(int userId, int time);
+        Task<AdminStaticsDto> GetAdminStatistic();
     }
 }

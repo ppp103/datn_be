@@ -21,5 +21,19 @@ namespace datn.API.Controllers
             }
             else { return BadRequest(); }
         }
+
+        [HttpGet]
+        [Route("get-admin-statistic")]
+        public async Task<IActionResult> GetAdminStatistic()
+        {
+            var report = Mediator.Send(new GetAdminDashboardStatisticQuery());
+            if (report != null)
+            {
+                return Ok(report);
+
+            }
+            else { return BadRequest(); }
+        }
+
     }
 }

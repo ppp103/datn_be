@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace datn.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,12 +18,12 @@ namespace datn.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     QuesitonId = table.Column<int>(type: "INTEGER", nullable: false),
                     PracticeTestId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ChosenOption = table.Column<string>(type: "TEXT", nullable: false),
+                    ChosenOption = table.Column<string>(type: "TEXT", nullable: true),
                     IsCorrect = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<string>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ModifiedDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,14 +37,14 @@ namespace datn.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     TakeTimes = table.Column<int>(type: "INTEGER", nullable: false),
-                    Time = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Time = table.Column<int>(type: "INTEGER", nullable: false),
                     Result = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     TestId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<string>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ModifiedDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,9 +98,9 @@ namespace datn.Infrastructure.Migrations
                     DifficultyLevel = table.Column<int>(type: "INTEGER", nullable: false),
                     Time = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<string>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ModifiedDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -116,9 +115,9 @@ namespace datn.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TestCategoryName = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<string>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ModifiedDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -133,11 +132,14 @@ namespace datn.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TestName = table.Column<string>(type: "TEXT", nullable: false),
                     Time = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalPoint = table.Column<int>(type: "INTEGER", nullable: false),
                     NumberOfQuestions = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<string>(type: "TEXT", nullable: true),
+                    ImgLink = table.Column<string>(type: "TEXT", nullable: true),
+                    TestCategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ModifiedDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -153,9 +155,9 @@ namespace datn.Infrastructure.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     ParentId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<string>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ModifiedDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -172,10 +174,11 @@ namespace datn.Infrastructure.Migrations
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Role = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsActive = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<string>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ModifiedDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

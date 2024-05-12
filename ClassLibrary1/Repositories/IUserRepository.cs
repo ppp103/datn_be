@@ -11,5 +11,9 @@ namespace datn.Domain
     {
         Task<RegistrationResponse> ResgisterUserAsync(RegisterUserDto registerUserDto);
         Task<LoginResponse> LoginUserAsync(LoginUserDto loginUserDto);
+        Task<PagedList<UserDto>> GetAllUserPaggingAsync(int page, int pageSize);
+        Task<UserDto> GetUserByIdAsync(int id);
+        Task<int> UpdateUserAsync(int id, User user);
+        Task<int> UpdateUserStatusAsync(int id, int isActive);
     }
 }

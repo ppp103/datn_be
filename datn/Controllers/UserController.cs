@@ -33,5 +33,43 @@ namespace datn.API.Controllers
 
             return BadRequest(res);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllPaggingAsync([FromQuery] GetAllUserPaggingQuery request)
+        {
+            var res = await Mediator.Send(request);
+            return Ok(res);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            var user = await Mediator.Send(new GetUserByIdQuery() { Id = id });
+            if (user != null)
+            {
+                return Ok(user);
+
+            }
+            else { return BadRequest(); }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(UpdateUserCommand command)
+        {
+            //if (!ModelState.IsValid)
+            //    return BadRequest(new { Errors = ModelState });
+
+            var updatedUser = await Mediator.Send(command);
+
+            return StatusCode(200, updatedUser);
+        }
+
+        [HttpPut("update-status")]
+        public async Task<IActionResult> UpdateStatusAsync(UpdateUserStatusCommand command)
+        {
+            var updatedUser = await Mediator.Send(command);
+
+            return StatusCode(200, updatedUser);
+        }
     }
 }

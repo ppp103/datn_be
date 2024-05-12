@@ -5,30 +5,38 @@
 namespace datn.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class _170420243 : Migration
+    public partial class _12052024_v2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "CreatedDate",
-                table: "Tests",
+                name: "UserName",
+                table: "User",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "TEXT");
 
             migrationBuilder.AlterColumn<string>(
-                name: "CreatedBy",
-                table: "Tests",
+                name: "Password",
+                table: "User",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "TEXT");
 
             migrationBuilder.AlterColumn<string>(
-                name: "CreatedDate",
-                table: "Questions",
+                name: "ImgLink",
+                table: "User",
+                type: "TEXT",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "TEXT");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Email",
+                table: "User",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -39,8 +47,8 @@ namespace datn.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "CreatedDate",
-                table: "Tests",
+                name: "UserName",
+                table: "User",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",
@@ -49,8 +57,8 @@ namespace datn.Infrastructure.Migrations
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
-                name: "CreatedBy",
-                table: "Tests",
+                name: "Password",
+                table: "User",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",
@@ -59,8 +67,18 @@ namespace datn.Infrastructure.Migrations
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
-                name: "CreatedDate",
-                table: "Questions",
+                name: "ImgLink",
+                table: "User",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "TEXT",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Email",
+                table: "User",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",

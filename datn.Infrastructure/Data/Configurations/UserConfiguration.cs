@@ -16,6 +16,8 @@ namespace datn.Infrastructure
             builder.HasKey(t => t.Id);
 
             builder.Property(x => x.Id).HasColumnName("Id").IsRequired();
+            //builder.Property(x => x.IsActive).HasColumnName("IsActive").IsRequired(false);
+
         }
     }
 }

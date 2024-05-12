@@ -1,4 +1,5 @@
-﻿using datn.Domain;
+﻿using datn.Application;
+using datn.Domain;
 using datn.Domain.Dto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,17 +16,17 @@ namespace datn.Infrastructure
 {
     public class UserRepository : IUserRepository
     {
-        private readonly QuestionDbContext _questionDbContext;
+        private readonly QuestionDbContext _userDbContext;
         private readonly IConfiguration _configuration;
-        public UserRepository(QuestionDbContext questionDbContext, IConfiguration configuration)
+        public UserRepository(QuestionDbContext userDbContext, IConfiguration configuration)
         {
             _configuration = configuration;
-            _questionDbContext = questionDbContext;     
+            _userDbContext = userDbContext;
 
         }
         public async Task<LoginResponse> LoginUserAsync(LoginUserDto loginUserDto)
         {
-            var getUser = await _questionDbContext.User.FirstOrDefaultAsync(u => u.UserName == loginUserDto.UserName);
+            var getUser = await _userDbContext.User.FirstOrDefaultAsync(u => u.UserName == loginUserDto.UserName);
             if (getUser == null)
             {
                 return new LoginResponse(false, "Không tìm thấy tên tài khoản");
@@ -71,7 +72,7 @@ namespace datn.Infrastructure
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private async Task<User> FindUserByUserName(string userName) => await _questionDbContext.User.FirstOrDefaultAsync(x => x.UserName == userName);    
+        private async Task<User> FindUserByUserName(string userName) => await _userDbContext.User.FirstOrDefaultAsync(x => x.UserName == userName);
 
         public async Task<RegistrationResponse> ResgisterUserAsync(RegisterUserDto registerUserDto)
         {
@@ -81,15 +82,68 @@ namespace datn.Infrastructure
                 return new RegistrationResponse(false, "Người dùng đã tồn tại");
             }
 
-            _questionDbContext.User.Add(new User()
+            _userDbContext.User.Add(new User()
             {
                 UserName = registerUserDto.UserName,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerUserDto.Password),
                 Email = registerUserDto.Email,
+                IsActive = 1,
             });
 
-            await _questionDbContext.SaveChangesAsync();
+            await _userDbContext.SaveChangesAsync();
             return new RegistrationResponse(true, "Đăng ký thành công");
+        }
+
+        public async Task<PagedList<UserDto>> GetAllUserPaggingAsync(int page, int pageSize)
+        {
+            var query = from user in _userDbContext.User
+                        select new UserDto()
+                        {
+                            Id = user.Id,
+                            UserName = user.UserName,
+                            Email = user.Email,
+                            Role = user.Role,
+                            IsActive = user.IsActive,
+                        };
+
+            var res = await PagedList<UserDto>.CreateAsync(query.OrderByDescending(x => x.Id), page, pageSize);
+
+            return res;
+        }
+
+        public async Task<UserDto> GetUserByIdAsync(int id)
+        {
+            var query = from user in _userDbContext.User
+                        where user.Id == id
+                        select new UserDto()
+                        {
+                            Id = user.Id,
+                            UserName = user.UserName,
+                            Email = user.Email,
+                            Role = user.Role,
+                            IsActive = user.IsActive,
+                        };
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> UpdateUserAsync(int id, User user)
+        {
+            return await _userDbContext.User.Where(x => x.Id == id)
+                .ExecuteUpdateAsync(setters => setters.
+                    SetProperty(m => m.Id, user.Id).
+                    SetProperty(m => m.UserName, user.UserName).
+                    SetProperty(m => m.Email, user.Email).
+                    SetProperty(m => m.ImgLink, user.ImgLink)
+                );
+
+        }
+
+        public async Task<int> UpdateUserStatusAsync(int id, int isActive)
+        {
+            return await _userDbContext.User.Where(x => x.Id == id)
+                .ExecuteUpdateAsync(setters => setters.
+                    SetProperty(m => m.IsActive, isActive)
+            );
         }
     }
 }

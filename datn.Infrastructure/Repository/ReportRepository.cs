@@ -24,16 +24,20 @@ namespace datn.Infrastructure
             var totalUsers = _questionDbContext.User.Count();
             var totalTests = _questionDbContext.Tests.Count();
             var totalQuestions = _questionDbContext.Questions.Count();
-            var totalPracticeTests = _questionDbContext.PracticeTest.Count();
+            //var totalPracticeTests = _questionDbContext.PracticeTest.Count();
 
-            // Lấy bài 10 bài test gần nhất
-            //var tenLastPracticeTests = _questionDbContext.PracticeTest.OrderByDescending(x => x.Id).Take(10).ToList();
+            var query = from practiceTest in _questionDbContext.PracticeTest
+                                     join user in _questionDbContext.User on practiceTest.UserId equals user.Id
+                                     join test in _questionDbContext.Tests on practiceTest.TestId equals test.Id
+                                     select new PracticeTestDto()
+                                     {
+                                         Id = practiceTest.Id,
+                                     };
 
-            //var numberOfPracticeTestByDate = _questionDbContext.PracticeTest.GroupBy(t => t.CreatedDate)
-            //                        .Select(g => new { Date = g.Key, Count = g.Count() }).ToList();
+            var totalPracticeTests = query.Count();
 
             // Tạo một Dictionary để lưu trữ số lượng bài test cho mỗi ngày
-            var tests = _questionDbContext.PracticeTest.ToList();
+            var tests = query.ToList();
             
             Dictionary<string, int> testCountByDate = new Dictionary<string, int>();
 
@@ -51,7 +55,7 @@ namespace datn.Infrastructure
                 }
             }
 
-            var totalPracticeTestByDate = testCountByDate.Select(pair => new ChartDto() { Label = pair.Key, Quantity = pair.Value }).ToList();
+            var totalPracticeTestByDate = testCountByDate.Select(pair => new ChartDto() { Label = pair.Key, Quantity = pair.Value }).Take(7).ToList();
 
             return new AdminStaticsDto()
             {

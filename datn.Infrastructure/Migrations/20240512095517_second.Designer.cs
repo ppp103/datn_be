@@ -11,8 +11,8 @@ using datn.Infrastructure;
 namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    [Migration("20240416082342_160420242")]
-    partial class _160420242
+    [Migration("20240512095517_second")]
+    partial class second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,13 +28,12 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("ChosenOption")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<string>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCorrect")
@@ -43,7 +42,7 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<string>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PracticeTestId")
@@ -67,13 +66,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<string>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<string>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Result")
@@ -85,8 +84,8 @@ namespace datn.Infrastructure.Migrations
                     b.Property<int>("TestId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Time")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -117,7 +116,7 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<string>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DifficultyLevel")
@@ -137,7 +136,7 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<string>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Option1")
@@ -211,16 +210,22 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<string>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImgLink")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<string>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NumberOfQuestions")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TestCategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("TestName")
@@ -248,13 +253,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<string>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<string>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TestCategoryName")
@@ -275,13 +280,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<string>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<string>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -306,17 +311,24 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<string>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ImgLink")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IsActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<string>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")

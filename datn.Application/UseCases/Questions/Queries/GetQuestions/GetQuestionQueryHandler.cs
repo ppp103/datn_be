@@ -23,40 +23,6 @@ namespace datn.Application
 
         public async Task<PagedList<QuestionDto>> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
         {
-            //if (request.PageSize == 0)
-            //{
-            //    request.PageSize = AppConstants.MinPageSize;
-            //}
-            //if (request.PageSize == -1)
-            //{
-            //    request.PageSize = AppConstants.MaxPageSize;
-            //}
-
-            //Expression<Func<Question, bool>> filter = c =>
-            // (string.IsNullOrEmpty(request.Keyword) || c.Content.ToLower().Contains(request.Keyword.ToLower()))
-            // && (request.ChuDeId == null || c.ChuDeId == request.ChuDeId)
-            // && (request.LoaiCauId == null || c.LoaiCauId <= request.LoaiCauId);
-
-            //var questions = await _questionRepository.GetAllQuestionsAsync();
-
-            ////var questionList = _mapper.Map<IQueryable<QuestionVM>>(questions);
-            //var questionList = questions
-            //    .Select(q => new QuestionVM
-            //    {
-            //        Id = q.Id,
-            //        Content = q.Content,
-            //        Option1 = q.Option1,
-            //        Option2 = q.Option2,
-            //        Option3 = q.Option3,
-            //        Option4 = q.Option4,
-            //        CorrectOption = q.CorrectOption,
-            //        Explaination = q.Explaination,
-            //        ChuDeId = q.ChuDeId,
-            //        LoaiCauId = q.LoaiCauId
-            //    }).AsQueryable();
-            //return await PagedList<QuestionVM>.CreateAsync(questionList, request.PageNumber, request.PageSize);
-            ////return await questionList.OrderByDescending(x => x.Id).CreateAsync();
-            ///
             if (request.PageSize == 0)
             {
                 request.PageSize = AppConstants.MinPageSize;

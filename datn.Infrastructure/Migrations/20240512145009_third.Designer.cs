@@ -11,8 +11,8 @@ using datn.Infrastructure;
 namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    [Migration("20240417020417_170420243")]
-    partial class _170420243
+    [Migration("20240512145009_third")]
+    partial class third
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,6 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("ChosenOption")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -85,8 +84,8 @@ namespace datn.Infrastructure.Migrations
                     b.Property<int>("TestId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Time")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -226,6 +225,9 @@ namespace datn.Infrastructure.Migrations
                     b.Property<int>("NumberOfQuestions")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("TestCategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("TestName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -315,6 +317,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ImgLink")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");

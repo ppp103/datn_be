@@ -22,4 +22,8 @@
     <ProjectReference Include="..\datn.Application\datn.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

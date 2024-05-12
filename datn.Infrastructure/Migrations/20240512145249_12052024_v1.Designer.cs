@@ -11,8 +11,8 @@ using datn.Infrastructure;
 namespace datn.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    [Migration("20240417015619_170420242")]
-    partial class _170420242
+    [Migration("20240512145249_12052024_v1")]
+    partial class _12052024_v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,6 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("ChosenOption")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -85,8 +84,8 @@ namespace datn.Infrastructure.Migrations
                     b.Property<int>("TestId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Time")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -118,7 +117,6 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedDate")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DifficultyLevel")
@@ -210,11 +208,9 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedDate")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImgLink")
@@ -227,6 +223,9 @@ namespace datn.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NumberOfQuestions")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TestCategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("TestName")
@@ -318,6 +317,13 @@ namespace datn.Infrastructure.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ImgLink")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("TEXT");

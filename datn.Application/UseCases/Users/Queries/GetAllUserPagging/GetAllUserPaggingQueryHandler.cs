@@ -31,7 +31,7 @@ namespace datn.Application
             {
                 request.PageNumber = 1;
             }
-            return await _userRepository.GetAllUserPaggingAsync(request.PageNumber, request.PageSize);
+            return await _userRepository.GetAllUserPaggingAsync(request.PageNumber, request.PageSize, request.Keyword);
         }
     }
 }

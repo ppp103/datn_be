@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace datn.Infrastructure
 {
@@ -26,7 +27,7 @@ namespace datn.Infrastructure
         }
         public async Task<LoginResponse> LoginUserAsync(LoginUserDto loginUserDto)
         {
-            var getUser = await _userDbContext.User.FirstOrDefaultAsync(u => u.UserName == loginUserDto.UserName);
+            var getUser = await _userDbContext.User.FirstOrDefaultAsync(u => u.UserName == loginUserDto.UserName && u.IsActive == 1);
             if (getUser == null)
             {
                 return new LoginResponse(false, "Không tìm thấy tên tài khoản");
@@ -94,9 +95,12 @@ namespace datn.Infrastructure
             return new RegistrationResponse(true, "Đăng ký thành công");
         }
 
-        public async Task<PagedList<UserDto>> GetAllUserPaggingAsync(int page, int pageSize)
+        public async Task<PagedList<UserDto>> GetAllUserPaggingAsync(int page, int pageSize, string keyword)
         {
             var query = from user in _userDbContext.User
+                        where string.IsNullOrEmpty(keyword) ||
+                              user.UserName.Contains(keyword) ||
+                              user.Email.Contains(keyword)
                         select new UserDto()
                         {
                             Id = user.Id,
@@ -144,6 +148,58 @@ namespace datn.Infrastructure
                 .ExecuteUpdateAsync(setters => setters.
                     SetProperty(m => m.IsActive, isActive)
             );
+        }
+
+        public async Task<int> DeleteAsync(int id)
+        {
+            var user = await _userDbContext.User.SingleOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                throw new Domain.SystemException("Người dùng không tồn tại");
+            }
+            return await _userDbContext.User.Where(model => model.Id == id).ExecuteDeleteAsync();
+        }
+
+        public async Task<UpdatePasswordResponse> UpdatePassword(UpdatePasswordDto updatePasswordDto)
+        {
+            //var getUser = await _userDbContext.User.FirstOrDefaultAsync(u => u.UserName == loginUserDto.UserName);
+            //if (getUser == null)
+            //{
+            //    return new LoginResponse(false, "Không tìm thấy tên tài khoản");
+            //}
+
+            //bool checkPassword = BCrypt.Net.BCrypt.Verify(loginUserDto.Password, getUser.Password);
+
+            //if (checkPassword)
+            //{
+            //    return new LoginResponse(true, "Đăng nhập thành công", GenerateJWTToken(getUser));
+            //}
+            //else
+            //{
+            //    return new LoginResponse(false, "Đăng nhập thất bại");
+            //}
+            // Tìm xem có tồn tại user không
+            var user = await _userDbContext.User.SingleOrDefaultAsync(x => x.Id == updatePasswordDto.Id);
+
+            if (user == null)
+            {
+                return new UpdatePasswordResponse(false, "Người dùng không tồn tại");
+            }
+
+            // Check xem pass cũ đúng không
+            bool checkPassword = BCrypt.Net.BCrypt.Verify(updatePasswordDto.OldPassword, user.Password);
+
+            // Đúng thì update
+            if (checkPassword)
+            {
+                var encryptedPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.NewPassword);
+                var res = await _userDbContext.User.Where(x => x.Id == updatePasswordDto.Id)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.Password, encryptedPassword));
+                if(res > 0) { return new UpdatePasswordResponse(true, "Đổi mật khẩu thành công"); }
+            }
+            return new UpdatePasswordResponse(false, "Mật khẩu cũ không đúng");
+
+            // Không đúng return error
         }
     }
 }

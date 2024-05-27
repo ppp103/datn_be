@@ -71,5 +71,25 @@ namespace datn.API.Controllers
 
             return StatusCode(200, updatedUser);
         }
+
+        [HttpPut("update-password")]
+        public async Task<IActionResult> UpdatePasswordAsync(UpdatePasswordCommand command)
+        {
+            var updatedUser = await Mediator.Send(command);
+
+            return StatusCode(200, updatedUser);
+        }
+
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync([FromQuery] int id)
+        {
+            var result = await Mediator.Send(new DeleteQuestionCommand { Id = id });
+            if (result == 0)
+            {
+                return BadRequest();
+            }
+            return Ok(id);
+        }
     }
 }

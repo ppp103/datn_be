@@ -32,6 +32,7 @@ namespace datn.Infrastructure
                                      select new PracticeTestDto()
                                      {
                                          Id = practiceTest.Id,
+                                         CreatedDate = practiceTest.CreatedDate,
                                      };
 
             var totalPracticeTests = query.Count();
@@ -44,7 +45,10 @@ namespace datn.Infrastructure
             // Đếm số lượng bài test cho mỗi ngày
             foreach (var test in tests)
             {
+                if(test.CreatedDate == null) test.CreatedDate = DateTime.Now.ToString();
                 string date = DateTime.ParseExact(test.CreatedDate, "MM/dd/yyyy HH:mm:ss", null).ToString("MM/dd/yyyy");
+
+
                 if (testCountByDate.ContainsKey(date))
                 {
                     testCountByDate[date]++;

@@ -11,7 +11,7 @@ namespace datn.Application
 {
     public class CreateTestCommand : IRequest<TestDto>
     {
-        public string TestName { get; set; }
+        public string? TestName { get; set; }
 
         public int Time { get; set; }
 
@@ -22,10 +22,10 @@ namespace datn.Application
         public string? CreatedBy { get; set; }
 
         //public string? ImgLink {  get; set; }
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
 
         public int TestCategoryId {  get; set; }
 
-        public List<int> Ids { get; set; }
+        public List<int>? Ids { get; set; }
     }
 }

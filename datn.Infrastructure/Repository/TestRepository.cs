@@ -74,7 +74,7 @@ namespace datn.Infrastructure
                             TotalPoint = test.TotalPoint,
                             CreatedBy = test.CreatedBy,
                             CreatedDate = test.CreatedDate,
-                            ImgLink = test.ImgLink,
+                            ImgLink = AppConstants.TEST_IMAGE_ROOT + (test.ImgLink ?? "avatar-default.png"),
                             TestCategoryName = testCategory.TestCategoryName,
                             TestCategoryId = testCategory.Id,
                             NumberOfQuestions = test.NumberOfQuestions,
@@ -106,7 +106,7 @@ namespace datn.Infrastructure
                             TotalPoint = test.TotalPoint,
                             CreatedBy = test.CreatedBy,
                             CreatedDate = test.CreatedDate,
-                            ImgLink = test.ImgLink, 
+                            ImgLink = AppConstants.TEST_IMAGE_ROOT + (test.ImgLink ?? "avatar-default.png"), 
                             NumberOfQuestions = test.NumberOfQuestions,
                             TestCategoryId = testCategory.Id,
                             TestCategoryName = testCategory.TestCategoryName

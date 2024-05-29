@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace datn.Application
 {
-    public class AppConstants
+    public static class AppConstants
     {
+        public const string TEST_IMAGE_ROOT = "https://localhost:7253/images/tests/";
         public const int MaxPageSize = 2147483646;
         public const int MinPageSize = 10;
     }

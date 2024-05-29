@@ -22,13 +22,20 @@ namespace datn.Application
 
         public async Task<TestDto> Handle(CreateTestCommand request, CancellationToken cancellationToken)
         {
+            var imgLink = "";
+            if(request.File != null)
+            {
+                string image = request.File.FileName;
+                imgLink = await UploadFileHelper.UploadFile(request.File, @"tests", image.ToLower());
+            }
             var testEntity = new TestDto()
             {
                 TestName = request.TestName,
                 Time = request.Time,
                 TotalPoint = request.TotalPoint,
                 NumberOfQuestions = request.NumberOfQuestion,
-                ImgLink = request.ImgLink,
+                //ImgLink = request.ImgLink,
+                ImgLink = imgLink,
                 CreatedDate = DateTime.Now.ToString(),
                 TestCategoryId = request.TestCategoryId,
                 Ids = request.Ids

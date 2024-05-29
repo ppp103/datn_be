@@ -28,7 +28,7 @@ namespace datn.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateTestCommand command)
+        public async Task<IActionResult> CreateAsync([FromForm]CreateTestCommand command)
         {
             var createdTest = await Mediator.Send(command);
 

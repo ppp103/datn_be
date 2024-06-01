@@ -19,7 +19,7 @@ namespace datn.Application
         public Task<UpdatePasswordResponse> Handle(UpdatePasswordCommand request, CancellationToken cancellationToken)
         {
 
-            return _userRepository.UpdatePassword(new UpdatePasswordDto()
+            return _userRepository.UpdatePasswordAsync(new UpdatePasswordDto()
             {
                 Id = request.Id,
                 OldPassword = request.OldPassword,

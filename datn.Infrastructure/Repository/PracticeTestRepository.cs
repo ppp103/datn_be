@@ -165,8 +165,10 @@ namespace datn.Infrastructure
                         TestName = test?.TestName,
                         TotalPoint = test?.TotalPoint,
                         TestId = practiceTest.TestId,
+                        ImgLink = AppConstants.TEST_IMAGE_ROOT + (test.ImgLink ?? "avatar-default.png"),
                         CreatedDate = practiceTest.CreatedDate,
                         CreatedBy = practiceTest.CreatedBy,
+                        TakeTimes = practiceTest.TakeTimes,
                         //AnswerSheets = query.ToList(),
                     };
                     res.Add(result);

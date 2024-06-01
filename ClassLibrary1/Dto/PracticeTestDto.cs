@@ -22,11 +22,15 @@ namespace datn.Domain
 
         public int TestId { get; set; }
 
+        public int TakeTimes { get; set; }
+
         public string? UserName { get; set; }
 
         public string? TestName { get; set; } 
 
         public int? TotalPoint {  get; set; }   
+
+        public string? ImgLink { get; set; }
 
         public string? CreatedDate { get; set; }
 

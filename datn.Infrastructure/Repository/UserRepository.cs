@@ -160,24 +160,8 @@ namespace datn.Infrastructure
             return await _userDbContext.User.Where(model => model.Id == id).ExecuteDeleteAsync();
         }
 
-        public async Task<UpdatePasswordResponse> UpdatePassword(UpdatePasswordDto updatePasswordDto)
+        public async Task<UpdatePasswordResponse> UpdatePasswordAsync(UpdatePasswordDto updatePasswordDto)
         {
-            //var getUser = await _userDbContext.User.FirstOrDefaultAsync(u => u.UserName == loginUserDto.UserName);
-            //if (getUser == null)
-            //{
-            //    return new LoginResponse(false, "Không tìm thấy tên tài khoản");
-            //}
-
-            //bool checkPassword = BCrypt.Net.BCrypt.Verify(loginUserDto.Password, getUser.Password);
-
-            //if (checkPassword)
-            //{
-            //    return new LoginResponse(true, "Đăng nhập thành công", GenerateJWTToken(getUser));
-            //}
-            //else
-            //{
-            //    return new LoginResponse(false, "Đăng nhập thất bại");
-            //}
             // Tìm xem có tồn tại user không
             var user = await _userDbContext.User.SingleOrDefaultAsync(x => x.Id == updatePasswordDto.Id);
 
@@ -200,6 +184,28 @@ namespace datn.Infrastructure
             return new UpdatePasswordResponse(false, "Mật khẩu cũ không đúng");
 
             // Không đúng return error
+        }
+
+        public async Task<UpdatePasswordResponse> UpdateEmailAsync(UpdateEmailDto updateEmailDto)
+        {
+            var user = await _userDbContext.User.SingleOrDefaultAsync(x => x.Id == updateEmailDto.Id);
+
+            if (user == null)
+            {
+                return new UpdatePasswordResponse(false, "Người dùng không tồn tại");
+            }
+
+            // Check xem pass cũ đúng không
+            bool checkPassword = BCrypt.Net.BCrypt.Verify(updateEmailDto.Password, user.Password);
+
+            // Đúng thì cập nhật email
+            if (checkPassword)
+            {
+                var res = await _userDbContext.User.Where(x => x.Id == updateEmailDto.Id)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.Email, updateEmailDto.Email));
+            }
+
+            return new UpdatePasswordResponse(false, "Mật khẩu không đúng");
         }
     }
 }

@@ -203,9 +203,31 @@ namespace datn.Infrastructure
             {
                 var res = await _userDbContext.User.Where(x => x.Id == updateEmailDto.Id)
                     .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.Email, updateEmailDto.Email));
+                if (res > 0) { return new UpdatePasswordResponse(true, "Đổi email thành công"); }
             }
 
             return new UpdatePasswordResponse(false, "Mật khẩu không đúng");
+        }
+
+        public async Task<UpdatePasswordResponse> UpdateImgAsync(UpdateImgDto updateImgDto)
+        {
+            var user = await _userDbContext.User.SingleOrDefaultAsync(x => x.Id == updateImgDto.Id);
+
+            if (user == null)
+            {
+                return new UpdatePasswordResponse(false, "Người dùng không tồn tại");
+            }
+
+            var res = await _userDbContext.User.Where(x => x.Id == updateImgDto.Id)
+                   .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.ImgLink, updateImgDto.ImgLink));
+            if (res > 0) { 
+                return new UpdatePasswordResponse(true, "Cập nhật ảnh thành công"); 
+            } 
+            else
+            {
+                return new UpdatePasswordResponse(false, "Cập nhật ảnh thất bại");
+
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace datn.Domain
         Task<int> UpdateUserStatusAsync(int id, int isActive);
         Task<UpdatePasswordResponse> UpdatePasswordAsync(UpdatePasswordDto updatePasswordDto);
         Task<UpdatePasswordResponse> UpdateEmailAsync(UpdateEmailDto updateEmailDto);
+        Task<UpdatePasswordResponse> UpdateImgAsync(UpdateImgDto updateImgDto);
         Task<int> DeleteAsync(int id);
     }
 }

@@ -88,6 +88,14 @@ namespace datn.API.Controllers
             return StatusCode(200, updatedUser);
         }
 
+        [HttpPut("update-avatar")]
+        public async Task<IActionResult> UpdateAvatarAsync([FromForm]UpdateImgCommand command)
+        {
+            var updatedUser = await Mediator.Send(command);
+
+            return StatusCode(200, updatedUser);
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync([FromQuery] int id)
         {

@@ -147,6 +147,7 @@ namespace datn.Infrastructure
                             LoaiCauId = q.LoaiCauId,
                             Point = q.Point,
                             DifficultyLevel = q.DifficultyLevel,
+                            Time = q.Time,
                         };
 
             // trả ra 1 list câu hỏi

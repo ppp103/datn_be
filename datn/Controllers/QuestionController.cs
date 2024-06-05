@@ -11,9 +11,9 @@ namespace datn.API
     public class QuestionController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync([FromQuery] GetQuestionQuery request)
         {
-            var questions = await Mediator.Send(new GetQuestionQuery());
+            var questions = await Mediator.Send(request);
             return Ok(questions);
         }
 

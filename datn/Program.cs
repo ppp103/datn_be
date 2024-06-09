@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,18 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+
+//builder.Services.AddAuthentication().AddJwtBearer(options =>
+//{
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuerSigningKey = true,
+//        ValidateAudience = false,
+//        ValidateIssuer = false,
+//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+//            builder.Configuration.GetSection("AppSettings: Token").Value!))
+//    };
+//});
 
 
 var app = builder.Build();

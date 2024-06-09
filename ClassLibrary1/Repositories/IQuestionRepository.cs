@@ -15,6 +15,5 @@
         Task<int> UpdateAsync(int id, Question question);  
 
         Task<int> DeleteAsync(int id); 
-
     }
 }

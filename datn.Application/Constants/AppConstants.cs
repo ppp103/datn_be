@@ -9,6 +9,8 @@ namespace datn.Application
     public static class AppConstants
     {
         public const string TEST_IMAGE_ROOT = "https://localhost:7253/images/tests/";
+        public const string USER_IMAGE_ROOT = "https://localhost:7253/images/user/";
+
         public const int MaxPageSize = 2147483646;
         public const int MinPageSize = 10;
     }
@@ -23,5 +25,12 @@ namespace datn.Application
     {
         User = 0,
         Admin = 1,
+    }
+
+    public enum DifficultyLevel
+    {
+        Easy = 1,
+        Normal = 2,
+        Hard = 3
     }
 }

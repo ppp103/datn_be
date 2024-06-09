@@ -17,5 +17,7 @@ namespace datn.Domain.Dto
         public int Role { get; set; }
 
         public int? IsActive { get; set; }
+
+        public string? ImgLink { get; set;}
     }
 }

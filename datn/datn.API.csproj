@@ -19,5 +19,7 @@
     <ProjectReference Include="..\datn.Application\datn.Application.csproj" />
     <ProjectReference Include="..\datn.Infrastructure\datn.Infrastructure.csproj" />
   </ItemGroup>
-
+		<ItemGroup>
+			<PackageReference Include="EPPlus" Version="7.1.3" />
+		</ItemGroup>
 </Project>

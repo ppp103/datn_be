@@ -11,6 +11,6 @@ namespace datn.Domain
         Task<PagedList<TestDto>> GetAllTestPaggingAsync(int page, int pageSize, string keyWord, int? testCategoryId);
         Task<TestDto> GetByIdAsync(int id);
         Task<TestDto> CreateAsync(TestDto test);
-
+        Task<TestDto> UpdateAsync(TestDto test);
     }
 }

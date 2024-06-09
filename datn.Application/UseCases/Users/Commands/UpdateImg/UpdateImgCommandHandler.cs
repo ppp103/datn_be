@@ -23,6 +23,18 @@ namespace datn.Application.UseCases.Users.Commands.UpdateImg
                 string image = request.File.FileName;
                 imgLink = await UploadFileHelper.UploadFile(request.File, @"user", image.ToLower());
             }
+            else
+            {
+                var existingUser = await _userRepository.GetUserByIdAsync(request.Id);
+                if (existingUser == null)
+                {
+                    return new UpdatePasswordResponse(false, "Người dùng không tồn tại");
+                }
+                else
+                {
+                    imgLink = existingUser.ImgLink;
+                }
+            }
 
             var updateImgDto = new UpdateImgDto()
             {

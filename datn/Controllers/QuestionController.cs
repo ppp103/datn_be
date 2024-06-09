@@ -1,5 +1,7 @@
 ﻿using datn.Application;
+using datn.Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -84,6 +86,29 @@ namespace datn.API
                 return BadRequest();
             }
             return Ok(id);
+        }
+
+        [HttpGet("excel")]
+        public async Task<IActionResult> GetExcelFile([FromQuery] GetQuestionExcelFileQuery request)
+        {
+            //var excelPackage = await _fixedAssetService.ExportFilteredAssetsToExcelAsync(assetFilter);
+
+            var excelPackage = await Mediator.Send(request);
+
+            if (excelPackage == null)
+            {
+                // Xử lý khi không có dữ liệu để xuất Excel
+                throw new NotFoundException("Xuất excel thất bại");
+            }
+            using (var memoryStream = new MemoryStream())
+            {
+                excelPackage.SaveAs(memoryStream);
+                memoryStream.Position = 0;
+
+                var excelBytes = memoryStream.ToArray();
+
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_sach_cau_hoi.xlsx");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using datn.Application;
+using datn.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,21 @@ namespace datn.API.Controllers
             if (createdTest != null)
             {
                 return StatusCode(201, createdTest);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync([FromForm] UpdateTestCommand command)
+        {
+            var createdTest = await Mediator.Send(command);
+
+            if (createdTest != null)
+            {
+                return StatusCode(200, createdTest);
             }
             else
             {

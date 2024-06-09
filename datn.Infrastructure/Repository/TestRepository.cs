@@ -113,5 +113,62 @@ namespace datn.Infrastructure
                         };
             return await query.FirstOrDefaultAsync(t => t.Id == id);
         }
+
+        public async Task<TestDto> UpdateAsync(TestDto test)
+        {
+            using var transaction = _questionDbContext.Database.BeginTransaction();
+            try
+            {
+                // Tìm test hiện tại
+                var existingTest = await _questionDbContext.Tests.FirstOrDefaultAsync(x => x.Id == test.Id);
+                if (existingTest == null)
+                {
+                    throw new Exception("Test not found");
+                }
+
+                // Cập nhật thông tin test
+                existingTest.TestName = test.TestName;
+                existingTest.Time = test.Time;
+                existingTest.TotalPoint = test.TotalPoint;
+                existingTest.CreatedBy = test.CreatedBy;
+                existingTest.CreatedDate = test.CreatedDate;
+
+                if (!string.IsNullOrEmpty(test.ImgLink))
+                {
+                    existingTest.ImgLink = test.ImgLink;
+                }
+                existingTest.NumberOfQuestions = test.NumberOfQuestions;
+                existingTest.TestCategoryId = test.TestCategoryId;
+
+                _questionDbContext.Tests.Update(existingTest);
+                await _questionDbContext.SaveChangesAsync();
+
+                // Xóa các câu hỏi cũ trong bảng TestQuestion
+                var existingQuestions = _questionDbContext.QuestionTests.Where(qt => qt.TestId == test.Id);
+                _questionDbContext.QuestionTests.RemoveRange(existingQuestions);
+                await _questionDbContext.SaveChangesAsync();
+
+                // Thêm các câu hỏi mới vào bảng TestQuestion
+                foreach (var id in test.Ids)
+                {
+                    var questionTestEntity = new QuestionTest()
+                    {
+                        QuestionId = id,
+                        TestId = existingTest.Id
+                    };
+                    await _questionDbContext.QuestionTests.AddAsync(questionTestEntity);
+                }
+
+                await _questionDbContext.SaveChangesAsync();
+                transaction.Commit();
+                return test;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

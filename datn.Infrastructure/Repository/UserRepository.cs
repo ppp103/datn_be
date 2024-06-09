@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace datn.Infrastructure
 {
@@ -47,21 +48,27 @@ namespace datn.Infrastructure
 
         private string GenerateJWTToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            //var userClaims = new[]
-            //{
-            //    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            //    new Claim(ClaimTypes.Name, user.UserName),
-            //    new Claim(ClaimTypes.Email, user.Email)
-            //};
+            var isAdmin = user.Role == (int)Role.Admin;
 
-            var userClaims = new[]
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var userClaims = new List<Claim>
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim("Name", user.UserName),
-                new Claim("Email", user.Email)
+                new Claim("Email", user.Email),
+                new Claim("Role", user.Role.ToString())
             };
+
+            if (isAdmin)
+            {
+                userClaims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
+            else
+            {
+                userClaims.Add(new Claim(ClaimTypes.Role, "User"));
+            }
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
@@ -69,7 +76,8 @@ namespace datn.Infrastructure
                 claims: userClaims,
                 expires: DateTime.Now.AddDays(5),
                 signingCredentials: credentials
-                );
+            );
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
@@ -126,6 +134,7 @@ namespace datn.Infrastructure
                             Email = user.Email,
                             Role = user.Role,
                             IsActive = user.IsActive,
+                            ImgLink = AppConstants.USER_IMAGE_ROOT + (user.ImgLink ?? "avatar-default.png"),
                         };
             return await query.FirstOrDefaultAsync(x => x.Id == id);
         }

@@ -99,7 +99,7 @@ namespace datn.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync([FromQuery] int id)
         {
-            var result = await Mediator.Send(new DeleteQuestionCommand { Id = id });
+            var result = await Mediator.Send(new DeleteUserCommand { Id = id });
             if (result == 0)
             {
                 return BadRequest();

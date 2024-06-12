@@ -166,6 +166,14 @@ namespace datn.Infrastructure
             {
                 throw new Domain.SystemException("Người dùng không tồn tại");
             }
+
+            var practiceTest = await _userDbContext.PracticeTest.FirstOrDefaultAsync(x => x.UserId == id);
+
+            if(practiceTest != null)
+            {
+                throw new Domain.SystemException("Không thể xoá! Người dùng đã làm bài thi!");
+            }
+
             return await _userDbContext.User.Where(model => model.Id == id).ExecuteDeleteAsync();
         }
 

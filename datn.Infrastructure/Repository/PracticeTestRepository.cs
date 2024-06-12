@@ -96,7 +96,7 @@ namespace datn.Infrastructure
                             Id = answerSheet.Id,
                             QuestionId = answerSheet.QuesitonId,
                             ChosenOption = answerSheet.ChosenOption,
-                            IsCorrect = answerSheet.IsCorrect,
+                            IsCorrect = answerSheet.ChosenOption == question.CorrectOption,
                             Explaination = question.Explaination,
                             DifficultyLevel = question.DifficultyLevel,
                             Point = question.Point,
@@ -108,9 +108,23 @@ namespace datn.Infrastructure
                             LoaiCauId = question.LoaiCauId,
                             CorrectOption = question.CorrectOption,
                         };
+            // Save change và commit
+            await _questionDbContext.SaveChangesAsync();
+
             if (practiceTest != null)
             {
                 var test = _questionDbContext.Tests.SingleOrDefault(test => test.Id == practiceTest.TestId);
+
+                //// Trường hợp câu hỏi thay đổi đáp án => Tính toán lại điểm
+                //var tuple = GetPracticeTestResultFunction(query.ToList());
+                //foreach (var item in tuple.Item1)
+                //{
+                //    item.PracticeTestId = practiceTest.Id;
+                //}
+
+                //_questionDbContext.AnswerSheet.UpdateRange(tuple.Item1);
+                //await _questionDbContext.SaveChangesAsync();
+
 
                 var result = new PracticeTestDto()
                 {

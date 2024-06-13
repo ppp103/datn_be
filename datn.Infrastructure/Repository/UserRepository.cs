@@ -169,7 +169,7 @@ namespace datn.Infrastructure
 
             var practiceTest = await _userDbContext.PracticeTest.FirstOrDefaultAsync(x => x.UserId == id);
 
-            if(practiceTest != null)
+            if (practiceTest != null)
             {
                 throw new Domain.SystemException("Không thể xoá! Người dùng đã làm bài thi!");
             }
@@ -196,7 +196,7 @@ namespace datn.Infrastructure
                 var encryptedPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.NewPassword);
                 var res = await _userDbContext.User.Where(x => x.Id == updatePasswordDto.Id)
                     .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.Password, encryptedPassword));
-                if(res > 0) { return new UpdatePasswordResponse(true, "Đổi mật khẩu thành công"); }
+                if (res > 0) { return new UpdatePasswordResponse(true, "Đổi mật khẩu thành công"); }
             }
             return new UpdatePasswordResponse(false, "Mật khẩu cũ không đúng");
 
@@ -237,14 +237,33 @@ namespace datn.Infrastructure
 
             var res = await _userDbContext.User.Where(x => x.Id == updateImgDto.Id)
                    .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.ImgLink, updateImgDto.ImgLink));
-            if (res > 0) { 
-                return new UpdatePasswordResponse(true, "Cập nhật ảnh thành công"); 
-            } 
+            if (res > 0)
+            {
+                return new UpdatePasswordResponse(true, "Cập nhật ảnh thành công");
+            }
             else
             {
                 return new UpdatePasswordResponse(false, "Cập nhật ảnh thất bại");
 
             }
+        }
+
+        public async Task<UpdatePasswordResponse> UpdatePasswordAdminAsync(UpdatePasswordDto updatePasswordDto)
+        {
+            var user = await _userDbContext.User.SingleOrDefaultAsync(x => x.Id == updatePasswordDto.Id);
+
+            if (user == null)
+            {
+                return new UpdatePasswordResponse(false, "Người dùng không tồn tại");
+            }
+
+            var encryptedPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.NewPassword);
+            var res = await _userDbContext.User.Where(x => x.Id == updatePasswordDto.Id)
+                .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.Password, encryptedPassword));
+            if (res > 0) { return new UpdatePasswordResponse(true, "Đổi mật khẩu thành công"); }
+
+            return new UpdatePasswordResponse(false, "Mật khẩu cũ không đúng");
+
         }
     }
 }

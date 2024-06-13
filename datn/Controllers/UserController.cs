@@ -80,6 +80,15 @@ namespace datn.API.Controllers
             return StatusCode(200, updatedUser);
         }
 
+        //[Authorize(Roles = "Admin")]
+        [HttpPut("update-password-admin")]
+        public async Task<IActionResult> UpdatePasswordAdminAsync(UpdatePasswordAdminCommand command)
+        {
+            var updatedUser = await Mediator.Send(command);
+
+            return StatusCode(200, updatedUser);
+        }
+
         [HttpPut("update-email")]
         public async Task<IActionResult> UpdateEmailAsync(UpdateEmailCommand command)
         {

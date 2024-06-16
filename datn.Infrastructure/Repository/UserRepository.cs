@@ -265,5 +265,15 @@ namespace datn.Infrastructure
             return new UpdatePasswordResponse(false, "Mật khẩu cũ không đúng");
 
         }
+
+        public async Task<UpdatePasswordResponse> ResetPassword(UpdatePasswordDto updatePasswordDto)
+        {
+            var encryptedPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.NewPassword);
+            var res = await _userDbContext.User.Where(x => x.Email == updatePasswordDto.Email)
+                .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.Password, encryptedPassword));
+            if (res > 0) { return new UpdatePasswordResponse(true, "Đổi mật khẩu thành công"); }
+
+            return new UpdatePasswordResponse(false, "Không đổi được mật khẩu");
+        }
     }
 }

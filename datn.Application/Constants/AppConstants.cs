@@ -10,6 +10,9 @@ namespace datn.Application
     {
         public const string TEST_IMAGE_ROOT = "https://localhost:7253/images/tests/";
         public const string USER_IMAGE_ROOT = "https://localhost:7253/images/user/";
+        public const string DEFAULT_EMAIL= "trandinhphuc1410@gmail.com";
+
+
 
         public const int MaxPageSize = 2147483646;
         public const int MinPageSize = 10;

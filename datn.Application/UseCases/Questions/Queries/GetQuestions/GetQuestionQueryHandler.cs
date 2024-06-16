@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using datn.Application.Service;
 using datn.Domain;
 using MediatR;
 using System;
@@ -14,11 +15,13 @@ namespace datn.Application
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
+        private readonly IMailService _mailService;
 
-        public GetQuestionQueryHandler(IQuestionRepository questionRepository, IMapper mapper)
+        public GetQuestionQueryHandler(IQuestionRepository questionRepository, IMapper mapper, IMailService mailService)
         {
             _questionRepository = questionRepository;
             _mapper = mapper;
+            _mailService = mailService;
         }
 
         public async Task<PagedList<QuestionDto>> Handle(GetQuestionQuery request, CancellationToken cancellationToken)

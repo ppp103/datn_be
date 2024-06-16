@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\files\email.html" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
@@ -21,5 +25,8 @@
   </ItemGroup>
 		<ItemGroup>
 			<PackageReference Include="EPPlus" Version="7.1.3" />
+		</ItemGroup>
+		<ItemGroup>
+		  <None Include="wwwroot\files\email.html" />
 		</ItemGroup>
 </Project>

@@ -34,6 +34,18 @@ namespace datn.API.Controllers
             return BadRequest(res);
         }
 
+        [HttpPost("forget-password")]
+        public async Task<ActionResult<LoginResponse>> ForgetPassword(ResetPasswordCommand command)
+        {
+            var res = await Mediator.Send(command);
+            if (res.Flag)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllPaggingAsync([FromQuery] GetAllUserPaggingQuery request)
         {

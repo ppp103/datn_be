@@ -58,7 +58,7 @@ namespace datn.Application
                 return await _userRepository.ResetPassword(newPasswordDto);
             }
             else{
-                return new UpdatePasswordResponse(false);
+                return new UpdatePasswordResponse(false, "Không gửi được email");
             }
         }
     }

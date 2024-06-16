@@ -268,6 +268,13 @@ namespace datn.Infrastructure
 
         public async Task<UpdatePasswordResponse> ResetPassword(UpdatePasswordDto updatePasswordDto)
         {
+            var user = await _userDbContext.User.SingleOrDefaultAsync(x => x.Email == updatePasswordDto.Email);
+
+            if (user == null)
+            {
+                return new UpdatePasswordResponse(false, "Email không tồn tại");
+            }
+
             var encryptedPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.NewPassword);
             var res = await _userDbContext.User.Where(x => x.Email == updatePasswordDto.Email)
                 .ExecuteUpdateAsync(setters => setters.SetProperty(m => m.Password, encryptedPassword));

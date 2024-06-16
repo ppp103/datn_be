@@ -38,12 +38,12 @@ namespace datn.API.Controllers
         public async Task<ActionResult<LoginResponse>> ForgetPassword(ResetPasswordCommand command)
         {
             var res = await Mediator.Send(command);
-            if (res.Flag)
-            {
-                return Ok(res);
-            }
+            //if (res.Flag)
+            //{
+            //    return Ok(res);
+            //}
 
-            return BadRequest(res);
+            return Ok(res);
         }
 
         [HttpGet]

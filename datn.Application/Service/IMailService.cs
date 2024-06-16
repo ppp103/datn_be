@@ -9,8 +9,6 @@ namespace datn.Application.Service
 {
     public interface IMailService
     {
-        bool SendMail(MailData mailData);
-
         public Task<bool> SendEmail(EmailModel emailModel);
 
         public Task<string> FormatEmailTemplate(string fromEmail, string subject, string toEmail, string message);

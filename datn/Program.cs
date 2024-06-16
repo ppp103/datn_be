@@ -60,19 +60,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-//builder.Services.AddAuthentication().AddJwtBearer(options =>
-//{
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuerSigningKey = true,
-//        ValidateAudience = false,
-//        ValidateIssuer = false,
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-//            builder.Configuration.GetSection("AppSettings: Token").Value!))
-//    };
-//});
-
-builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IMailService, MailService>();
 var app = builder.Build();
 

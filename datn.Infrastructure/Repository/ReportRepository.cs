@@ -1,4 +1,5 @@
 ﻿using datn.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,25 +28,25 @@ namespace datn.Infrastructure
             //var totalPracticeTests = _questionDbContext.PracticeTest.Count();
 
             var query = from practiceTest in _questionDbContext.PracticeTest
-                                     join user in _questionDbContext.User on practiceTest.UserId equals user.Id
-                                     join test in _questionDbContext.Tests on practiceTest.TestId equals test.Id
-                                     select new PracticeTestDto()
-                                     {
-                                         Id = practiceTest.Id,
-                                         CreatedDate = practiceTest.CreatedDate,
-                                     };
+                        join user in _questionDbContext.User on practiceTest.UserId equals user.Id
+                        join test in _questionDbContext.Tests on practiceTest.TestId equals test.Id
+                        select new PracticeTestDto()
+                        {
+                            Id = practiceTest.Id,
+                            CreatedDate = practiceTest.CreatedDate,
+                        };
 
             var totalPracticeTests = query.Count();
 
             // Tạo một Dictionary để lưu trữ số lượng bài test cho mỗi ngày
             var tests = query.ToList();
-            
+
             Dictionary<string, int> testCountByDate = new Dictionary<string, int>();
 
             // Đếm số lượng bài test cho mỗi ngày
             foreach (var test in tests)
             {
-                if(test.CreatedDate == null) test.CreatedDate = DateTime.Now.ToString();
+                if (test.CreatedDate == null) test.CreatedDate = DateTime.Now.ToString();
                 string date = DateTime.ParseExact(test.CreatedDate, "MM/dd/yyyy HH:mm:ss", null).ToString("MM/dd/yyyy");
 
 
@@ -74,8 +75,6 @@ namespace datn.Infrastructure
         public async Task<StatisticDto> GetStatisticByUser(int userId, int time)
         {
             /// Thiếu lọc theo thời gian 
-            /// và lấy tỉ lệ đúng các dạng câu hỏi
-            /// 
 
             // Tổng số bài test đã làm
             var totalTakenTest = _questionDbContext.PracticeTest
@@ -206,6 +205,140 @@ namespace datn.Infrastructure
 
             return res;
         }
+
+        //public async Task<StatisticDto> GetStatisticByUser(int userId, int time)
+        //{
+        //    // Tính toán thời gian bắt đầu dựa trên tham số `time`
+        //    DateTime startTime = DateTime.Now.AddDays(-time); // Nếu time là số ngày
+        //                                                      // Nếu time là số tuần: DateTime startTime = DateTime.Now.AddDays(-time * 7);
+        //                                                      // Nếu time là số tháng: DateTime startTime = DateTime.Now.AddMonths(-time);
+
+        //    // Lấy toàn bộ dữ liệu vào bộ nhớ
+        //    var practiceTestList = await _questionDbContext.PracticeTest
+        //                                .Where(x => x.UserId == userId)
+        //                                .ToListAsync();
+
+        //    // Lọc dữ liệu theo thời gian trong bộ nhớ
+        //    var filteredPracticeTestList = practiceTestList
+        //                                    .Where(x => DateTime.ParseExact(x.CreatedDate, "MM/dd/yyyy HH:mm:ss", null) >= startTime)
+        //                                    .ToList();
+
+        //    // Tổng số bài test đã làm
+        //    var totalTakenTest = filteredPracticeTestList
+        //                                .Select(x => x.TestId)
+        //                                .Distinct()
+        //                                .Count();
+
+        //    // Số lần làm bài - tính cả làm lại 1 bài test
+        //    var totalPracticeTimes = filteredPracticeTestList.Count();
+
+        //    // Lần làm bài gần nhất
+        //    var lastestPracticeTime = filteredPracticeTestList
+        //                                .OrderByDescending(x => x.Id)
+        //                                .FirstOrDefault();
+
+        //    // Tổng thời gian làm
+        //    var totalTime = filteredPracticeTestList
+        //                        .Select(x => x.Time)
+        //                        .Sum();
+
+        //    // <% đúng của từng bài luyện> <result / totalPoint>
+        //    List<ChartDto> correctPercentage = new List<ChartDto>();
+
+        //    foreach (var practiceTest in filteredPracticeTestList)
+        //    {
+        //        var test = await _testRepository.GetByIdAsync(practiceTest.TestId);
+        //        DateTime date;
+        //        var formattedDate = "";
+        //        if (DateTime.TryParseExact(practiceTest.CreatedDate, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out date))
+        //        {
+        //            formattedDate = date.ToString("dd/MM/yyyy");
+        //        }
+
+        //        var numberOfCorrectAnswers = _questionDbContext.AnswerSheet
+        //                                    .Where(x => x.IsCorrect && x.PracticeTestId == practiceTest.Id)
+        //                                    .Count();
+
+        //        var item = (double)numberOfCorrectAnswers / test.NumberOfQuestions;
+
+        //        correctPercentage.Add(new ChartDto
+        //        {
+        //            Label = formattedDate,
+        //            Time = practiceTest.Time,
+        //            Quantity = Math.Round(item * 100, 2)
+        //        });
+        //    }
+
+        //    // Tỉ lệ đúng theo chủ đề
+        //    var correctRatesByTopicAndUser = new List<CorrectRateByTopicAndUserDto>();
+
+        //    List<Topic> topics = (from topic in _questionDbContext.Topics
+        //                          join question in _questionDbContext.Questions on topic.Id equals question.ChuDeId
+        //                          join answerSheet in _questionDbContext.AnswerSheet on question.Id equals answerSheet.QuesitonId
+        //                          join practiceTest in _questionDbContext.PracticeTest on answerSheet.PracticeTestId equals practiceTest.Id
+        //                          where practiceTest.UserId == userId
+        //                          select topic)
+        //                          .Distinct()
+        //                          .ToList();
+
+        //    foreach (var topicElement in topics)
+        //    {
+        //        var totalQuestionsByTopic =
+        //                        (from topic in _questionDbContext.Topics
+        //                         join question in _questionDbContext.Questions on topic.Id equals question.ChuDeId
+        //                         join answerSheet in _questionDbContext.AnswerSheet on question.Id equals answerSheet.QuesitonId
+        //                         join practiceTest in _questionDbContext.PracticeTest on answerSheet.PracticeTestId equals practiceTest.Id
+        //                         where practiceTest.UserId == userId && topic.Id == topicElement.Id
+        //                         select topic)
+        //                         .Count();
+
+        //        var correctQuestionByTopic =
+        //                        (from topic in _questionDbContext.Topics
+        //                         join question in _questionDbContext.Questions on topic.Id equals question.ChuDeId
+        //                         join answerSheet in _questionDbContext.AnswerSheet on question.Id equals answerSheet.QuesitonId
+        //                         join practiceTest in _questionDbContext.PracticeTest on answerSheet.PracticeTestId equals practiceTest.Id
+        //                         where practiceTest.UserId == userId && topic.Id == topicElement.Id && answerSheet.IsCorrect
+        //                         select topic)
+        //                         .Count();
+
+        //        if (totalQuestionsByTopic == 0)
+        //        {
+        //            totalQuestionsByTopic = 1;
+        //        }
+
+        //        correctRatesByTopicAndUser.Add(new CorrectRateByTopicAndUserDto()
+        //        {
+        //            TopicId = topicElement.Id,
+        //            TopicName = topicElement.Name,
+        //            CorrectAnswers = correctQuestionByTopic,
+        //            TotalAnswers = totalQuestionsByTopic,
+        //            CorrectRate = Math.Round((double)correctQuestionByTopic / totalQuestionsByTopic * 100, 2)
+        //        });
+        //    }
+
+        //    // Thời gian trung bình
+        //    var averageTime = Math.Round((double)correctPercentage.Sum(x => x.Time) / correctPercentage.Count(), 2);
+
+        //    // Độ chính xác trung bình
+        //    var averageCorrecPercent = Math.Round((double)correctPercentage.Sum(x => x.Quantity) / correctPercentage.Count(), 2);
+
+        //    var totalPracticeTests = correctPercentage.Count();
+
+        //    // Return res
+        //    var res = new StatisticDto()
+        //    {
+        //        TotalTakenTest = totalTakenTest,
+        //        TotalPracticeTime = totalTime,
+        //        AverageCorrecPercent = averageCorrecPercent,
+        //        AverageTime = averageTime,
+        //        TotalPracticeTestTaken = totalPracticeTests,
+        //        CorrectPercentage = correctPercentage,
+        //        CorrectPercentageByTopicAndUser = correctRatesByTopicAndUser,
+        //    };
+
+        //    return res;
+        //}
+
 
     }
 }

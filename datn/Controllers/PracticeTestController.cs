@@ -58,5 +58,22 @@ namespace datn.API.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost]
+        [Route("create-stimulation")]
+        public async Task<IActionResult> CreateStimulationAsync(CreateStimulationTestCommand command)
+        {
+            var createdPracticeTest = await Mediator.Send(command);
+
+            if (createdPracticeTest != null)
+            {
+                return StatusCode(201, createdPracticeTest);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

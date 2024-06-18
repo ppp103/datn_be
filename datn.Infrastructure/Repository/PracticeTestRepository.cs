@@ -73,8 +73,18 @@ namespace datn.Infrastructure
             {
                 transaction.Rollback();
                 throw new Exception(ex.Message);
-
             }
+        }
+        public async Task<PracticeTestDto> CreateStimulationTestAsync(PracticeTestDto practiceTest)
+        {
+            var tuple = GetPracticeTestResultFunctionV2(practiceTest.AnswerSheets);
+            var result = new PracticeTestDto()
+            {
+                AnswerSheets = tuple.Item1,
+                Result = tuple.Item2
+            };
+
+            return result;
         }
 
         public Task<List<PracticeTestDto>> GetAllPracticeTest()
@@ -93,7 +103,6 @@ namespace datn.Infrastructure
                         where answerSheet.PracticeTestId == id
                         select new AnswerSheetDto()
                         {
-                            Id = answerSheet.Id,
                             QuestionId = answerSheet.QuesitonId,
                             ChosenOption = answerSheet.ChosenOption,
                             IsCorrect = answerSheet.ChosenOption == question.CorrectOption,
@@ -230,6 +239,49 @@ namespace datn.Infrastructure
 
             // Return điểm
             return new Tuple<List<AnswerSheet>, int>(answerSheets, result);
+        }
+
+        public Tuple<List<AnswerSheetDto>, int> GetPracticeTestResultFunctionV2(List<AnswerSheetDto> answerSheetDtos)
+        {
+            List<AnswerSheetDto> answerSheets = new List<AnswerSheetDto>();
+            int result = 0;
+            foreach (var answerSheetDto in answerSheetDtos)
+            {
+                // Lấy ra câu hỏi
+                var question = _questionDbContext.Questions.FirstOrDefault(q => q.Id == answerSheetDto.QuestionId);
+
+                if (question != null)
+                {
+                    // Kiểm tra đáp án
+                    var isCorrect = question.CorrectOption == answerSheetDto.ChosenOption;
+                    var answerSheet = new AnswerSheetDto()
+                    {
+                        Id = answerSheetDto.Id,
+                        QuestionId = answerSheetDto.QuestionId,
+                        ChosenOption = answerSheetDto.ChosenOption,
+                        IsCorrect = question?.CorrectOption == answerSheetDto.ChosenOption,
+                        Content = question.Content,
+                        Option1 = question.Option1,
+                        Option2 = question.Option2,
+                        Option3 = question.Option3,
+                        Option4 = question.Option4,
+                        Point = question.Point,
+                        CorrectOption = question.CorrectOption,
+                        LoaiCauId = question.LoaiCauId,
+                        Explaination = question.Explaination,
+                        DifficultyLevel = question.DifficultyLevel,
+                    };
+
+                    // Tính điểm
+                    if (isCorrect)
+                        result += answerSheetDto.Point;
+
+                    answerSheets.Add(answerSheet);
+                }
+            }
+
+            // Return điểm
+            return new Tuple<List<AnswerSheetDto>, int>(answerSheets, result);
         }
 
 
@@ -378,6 +430,7 @@ namespace datn.Infrastructure
             return res;
             //throw new NotImplementedException();
         }
+
 
     }
 }
